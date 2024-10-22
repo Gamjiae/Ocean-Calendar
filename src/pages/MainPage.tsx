@@ -1,5 +1,8 @@
 import "../App.css"
+import { useState } from 'react'
+
 import Header from "../components/Header"
+import AutoSearch from "../components/AutoSearch"
 
 const MainPage: React.FC = () => {
     return (
@@ -8,21 +11,10 @@ const MainPage: React.FC = () => {
             style={{backgroundImage: 'url(images/background.png)'}}
         >
             <Header showTitle={false}/>
+
             <span className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-2xl">Ocean Calendar</span>
 
-            {/* 검색창 */}
-            <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-between items-center w-4/5 h-[50px] rounded-full bg-white ">
-                <input
-                    className='w-[1000px] ml-8' 
-                    type="text"
-                    placeholder="지역을 검색해보세요."
-                />
-                <button
-                    className='w-[30px] h-[30px] bg-cover mr-3' 
-                    style={{backgroundImage: 'url(images/search.png)'}}
-                />
-            </div>
-
+            
             
             <div className="absolute flex w-4/5 justify-around top-2/4 left-1/2 transform -translate-x-1/2 -translate-y-10">
                 {/* 날씨 */}
@@ -63,6 +55,7 @@ const MainPage: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <AutoSearch/>
         </div>
     )
 }
