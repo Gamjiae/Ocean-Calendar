@@ -3,7 +3,11 @@ import styled from 'styled-components'
 
 import { beaches } from '../beachList';
 
-const AutoSearch: React.FC = () => {  
+type props = {
+  setBeach: React.Dispatch<React.SetStateAction<string>>
+}
+
+const AutoSearch: React.FC<props> = ({ setBeach }) => {  
   const [keyword, setKeyword] = useState<string>("");     // 검색어
   const [autoItems, setAutoItems] = useState<string[]>([]); // 자동완성된 검색어 목록
 
@@ -40,7 +44,7 @@ const AutoSearch: React.FC = () => {
             <ul>
               {autoItems.map((item, idx) => (
                 <AutoSearchData key={item} onClick={() => setKeyword(item)}>
-                  <a href='#'>{item}</a>
+                  <span onClick={() => setBeach(item)}>{item}</span>
                 </AutoSearchData>
               ))}
             </ul>
