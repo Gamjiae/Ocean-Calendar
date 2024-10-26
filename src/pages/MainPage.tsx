@@ -10,10 +10,15 @@ import AutoSearch from "../components/AutoSearch"
 import { date, time } from '../getDate'
 import { emojies } from '../weatherEmoji'
 
+interface ForecastData {
+    fcstTime: string;
+    fcstValue: string;
+}
+
 const MainPage: React.FC = () => {
     const [sky, setSky] = useState<string>(""); // 하늘상태
     const [emoji, setEmoji] = useState<string>("");
-    const [tmp, setTmp] = useState<string>(""); // 기온
+    const [tmp, setTmp] = useState<ForecastData[]>([]); // 기온
     const [pty, setPty] = useState<string>(""); // 강수형태
     const [beach, setBeach] = useState<string>("");
 
@@ -35,14 +40,24 @@ const MainPage: React.FC = () => {
             console.log("API 호출 성공:", res.data.response.body.items);
             const items = res.data.response.body.items.item;
 
-            const localTmp = items.find((item: any) => item.category === "T1H")?.fcstValue;
+            // temp 
+            const forecastData = items
+                .filter((item: any) => item.category === 'T1H')
+                .slice(0, 3)
+                .map((item: any) => ({
+                    fcstTime: item.fcstTime,
+                    fcstValue: item.fcstValue
+                }));
+
+            setTmp(forecastData);
+
+            // pty, sky
             const localPty = items.find((item: any) => item.category === "PTY")?.fcstValue;
             const localSky = items.find((item: any) => item.category === "SKY")?.fcstValue;
 
-            if (localTmp) setTmp(localTmp);
             if (localSky) setSky(localSky);
 
-            // 강수, 하늘 상태에 따른 이모지 설정
+            // emoji (강수, 하늘 상태에 따른 이모지 설정)
             if (localPty) {
                 switch(localPty) {
                     case "0": {
@@ -102,8 +117,8 @@ const MainPage: React.FC = () => {
             <span className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-2xl">Ocean Calendar</span>
             
             <div className="absolute flex w-4/5 justify-around top-2/4 left-1/2 transform -translate-x-1/2 -translate-y-10">
-                <Weather emoji={emoji} sky={sky} pty={pty} tmp={tmp}/>
-                <WaterTmp />
+                <Weather emoji={emoji} sky={sky} pty={pty} tmp={tmp[0]?.fcstValue || ""}/>
+                <WaterTmp tmp={tmp}/>
                 <TideAndSun />
             </div>
 

@@ -1,15 +1,22 @@
-type props = {
-   
+import Graph from '../Graph';
+
+type ForecastData = {
+    fcstTime: string;
+    fcstValue: string;
 }
 
-const Weather: React.FC<props> = () => {
+type props = {
+   tmp: ForecastData[]
+}
+
+const WaterTmp: React.FC<props> = ({ tmp }) => {
     return (
-        <div className="bg-white opacity-70 w-[250px] h-[290px]">
+        <div className="flex items-center justify-center flex-col bg-white opacity-65 w-[250px] h-[290px] rounded-3xl">
             {/* 3시간 동안의 수온변화 그래프 */}
-            <span>21도</span>
+            <Graph tmp={tmp}/>
             <span className="text-gray-600">비, 구름 많음</span>
         </div>
     )
 }
 
-export default Weather
+export default WaterTmp

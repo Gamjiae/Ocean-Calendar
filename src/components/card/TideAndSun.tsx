@@ -1,6 +1,6 @@
 const TideAndSun: React.FC = () => {
     return (
-        <div className="bg-white opacity-70 w-[250px] h-[290px]">
+        <div className="flex items-center justify-center flex-col bg-white opacity-65 w-[250px] h-[290px] rounded-3xl">
             {/* 조석 */}
             <span>21도</span>
 
