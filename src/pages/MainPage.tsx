@@ -28,7 +28,7 @@ const MainPage: React.FC = () => {
         axios.get('http://apis.data.go.kr/1360000/BeachInfoservice/getUltraSrtFcstBeach', {
             params: {
                 serviceKey: key,
-                numOfRows: 60, 
+                numOfRows: 28,
                 pageNo: 1,
                 dataType: 'JSON',
                 base_date: date,

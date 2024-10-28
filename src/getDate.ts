@@ -23,7 +23,7 @@ if (minute < 45) {
     }
     time = String(hour).padStart(2, "0") + "30";
 } else {
-    time = String(hour).padStart(2, "0") + "00";
+    time = String(hour).padStart(2, "0") + "30";
 }
 
 export let date = `${year}${month}${day}`;
