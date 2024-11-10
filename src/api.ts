@@ -3,13 +3,14 @@ import { date, time } from './getDate';
 import { emojies } from './weatherEmoji';
 import { WeatherData } from './interface';
 
-const key = '4cO3mbOrpYGMwt0QP2coIoApx8hLR0KNJxAIzQ1gHQHSLQcODgd/Pdn6vlQsamSDSzloxkX2N24lFEdHxQCGow==';
+const key1 = '4cO3mbOrpYGMwt0QP2coIoApx8hLR0KNJxAIzQ1gHQHSLQcODgd/Pdn6vlQsamSDSzloxkX2N24lFEdHxQCGow==';
+const key2 = 'XxVn8I4Z6RnfRQJ3pth6hQ==';
 
 export const fetchWeatherData = async (): Promise<WeatherData> => {
     try {
         const res = await axios.get('http://apis.data.go.kr/1360000/BeachInfoservice/getUltraSrtFcstBeach', {
             params: {
-                serviceKey: key,
+                serviceKey: key1,
                 numOfRows: 28,
                 pageNo: 1,
                 dataType: 'JSON',
@@ -64,3 +65,44 @@ export const fetchWeatherData = async (): Promise<WeatherData> => {
         throw new Error("데이터를 가져오는 중 오류가 발생했습니다.");
     }
 };
+
+export const fetchWaveHeight = async () => {
+    try {
+        const res = await axios.get('http://apis.data.go.kr/1360000/BeachInfoservice/getWhBuoyBeach', {
+            params: {
+                serviceKey: key1,
+                numOfRows: 28,
+                pageNo: 1,
+                dataType: 'JSON',
+                base_date: date,
+                base_time: time,
+                beach_num: 1 // 임시값
+            }
+        });
+
+
+    } catch (error) {
+        console.error("API 호출 실패: ", error);
+        throw new Error("파고 데이터를 가져오는 중 오류가 발생했습니다.");
+    }
+}
+
+export const fetchTide = async () => {
+    try {
+        const res = await axios.get('http://www.khoa.go.kr/api/oceangrid/DataType/search.do', {
+            params: {
+                ServiceKey: key2,
+                ObsCode: 'DT_0063', // 임시값
+                Date: date,
+                ResultType: 'json'
+            }
+        })
+
+        const items = res.data.response.body.items.item;
+        console.log('Tide:', items);
+
+    } catch (error) {
+        console.error("API 호출 실패: ", error);
+        throw new Error("파고 데이터를 가져오는 중 오류가 발생했습니다.");
+    }
+}
