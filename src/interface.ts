@@ -9,3 +9,9 @@ export interface WeatherData {
     sky: string;
     emoji: string;
 }
+
+export type TideData = {
+    tph_level: string,
+    tph_time: string,
+    hl_code: '고조' | '저조'
+}

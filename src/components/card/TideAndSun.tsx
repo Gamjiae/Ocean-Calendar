@@ -1,8 +1,48 @@
+import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { fetchHighAndLowTide } from '../../api'
+import { TideData } from '../../interface'
+
 const TideAndSun: React.FC = () => {
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ['HighAndLowTide'], 
+        queryFn: fetchHighAndLowTide
+    });
+
+    const highTide = data?.filter((item: TideData) => item.hl_code === '고조') || [];
+    const lowTide = data?.filter((item: TideData) => item.hl_code === '저조') || [];
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (isError) {
+        return <div>Error fetching data</div>;
+    }
+    
     return (
         <div className="flex items-center justify-center flex-col bg-white opacity-65 w-[250px] h-[290px] rounded-3xl">
+            
             {/* 조석 */}
-            <span>21도</span>
+            {highTide?.map((item: TideData, index: number) => (
+                <div className='w-full flex px-12 justify-between' key={index}>
+                    {item.tph_time.slice(11,16)}
+                    <div className='flex items-center'>
+                        <img className="w-3 h-4" src='images/up.png'/>
+                        {item.tph_level}
+                    </div>
+                </div>
+            ))} <hr className="my-2 border-t-1 border-gray-400 w-4/5" />
+            
+            {lowTide?.map((item: TideData, index: number) => (
+                <div className='w-full flex px-12 justify-between' key={index}>
+                    {item.tph_time.slice(11,16)} 
+                    <div className='flex items-center'>
+                        <img className="w-3 h-4" src='images/down.png'/>
+                        {item.tph_level}
+                    </div>
+                </div>
+            ))} <br/>          
 
             {/* 일출, 일몰 */}
             <div className="flex justify-between text-sm bottom-2">
