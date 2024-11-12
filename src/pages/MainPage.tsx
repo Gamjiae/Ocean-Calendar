@@ -17,17 +17,14 @@ const MainPage: React.FC = () => {
         queryFn: fetchWeatherData,
     });
 
-    // 로딩중 상태 처리
     if (isLoading) {
         return <div>Loading...</div>;
     }
 
-    // 에러 상태 처리
     if (isError) {
         return <div>Error fetching data</div>;
     }
 
-    // 데이터 가져옴
     return (
         <div 
             className="w-screen h-screen bg-cover" 
@@ -50,7 +47,7 @@ const MainPage: React.FC = () => {
                 <TideAndSun />
             </div>
 
-            <AutoSearch setBeach={setBeach} />
+            <AutoSearch setBeach={setBeach} containerStyle={{ top: '33%', left: '50%', transform: 'translate(-50%, -50%)'}}/>
         </div>
     );
 };

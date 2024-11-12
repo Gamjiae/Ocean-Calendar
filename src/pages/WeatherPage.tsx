@@ -1,6 +1,12 @@
+import Header from "../components/Header"
+import Search from "../components/Search"
+
 const WeatherPage: React.FC = () => {
     return (
-        <div></div>
+        <div>
+            <Header showTitle={false}/>
+            <Search/>
+        </div>
     )
 }
 

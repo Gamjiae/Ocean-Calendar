@@ -1,13 +1,16 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
 import { beaches } from '../beachList';
 
 type props = {
-  setBeach: React.Dispatch<React.SetStateAction<string>>
+  setBeach?: React.Dispatch<React.SetStateAction<string>>;
+  containerStyle?: React.CSSProperties;
+  inputStyle?: React.CSSProperties;
+  showImg?: boolean; 
 }
 
-const AutoSearch: React.FC<props> = ({ setBeach }) => {  
+const AutoSearch: React.FC<props> = ({ setBeach, containerStyle, inputStyle, showImg = true }) => {  
   const [keyword, setKeyword] = useState<string>("");     // 검색어
   const [autoItems, setAutoItems] = useState<string[]>([]); // 자동완성된 검색어 목록
 
@@ -36,9 +39,14 @@ const AutoSearch: React.FC<props> = ({ setBeach }) => {
 
   return (
     <div>
-      <SearchContainer>
-        <SearchInput value={keyword} onChange={onChangeData} hasResults={autoItems.length > 0}/>
-        <img src="images/search.png" alt="searchIcon" />
+      <SearchContainer style={containerStyle}>
+        <SearchInput 
+          value={keyword} 
+          onChange={onChangeData} 
+          hasResults={autoItems.length > 0} 
+          style={inputStyle}
+        />
+        { showImg && <img src="images/search.png" alt="searchIcon" /> }
         {autoItems.length > 0 && keyword && (
           <AutoSearchContainer hasResults={autoItems.length > 0}>
             <ul>
@@ -63,9 +71,6 @@ const SearchContainer = styled.div`
   width: 60%;
   height: 45px;
   position: absolute;
-  top: 33%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   img {
     position: absolute;
     right: 10px;
