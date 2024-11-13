@@ -1,5 +1,5 @@
-import { beaches } from "../beachList"
 import AutoSearch from "./AutoSearch"
+import Calendar from "./Calendar";
 
 const Search: React.FC = () => {
     return(
@@ -13,9 +13,9 @@ const Search: React.FC = () => {
                 />
                 <button className="bg-sky-500 text-white p-0.5 text-sm h-[25px] ml-2">결과 조회</button>
             </div>
-            <div>
-                <span>날짜 선택</span>
-                
+            <div className="flex">
+                <span className="mr-2">날짜 선택</span>
+                <Calendar />
             </div>
         </div>
     )

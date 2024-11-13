@@ -16,20 +16,20 @@ const Header: React.FC<HeaderProps> = ({ showTitle = true }) => {
       </div>
 
       {/* 네비게이션 */}
-      <div className='flex justify-center flex-grow text-sm'>
-        <Link to={'/weather'} className='flex items-center w-[186px] h-[56px]'>
+      <div className='flex justify-evenly flex-grow text-sm'>
+        <Link to={'/weather'} className='flex items-center'>
           <img className='w-6 h-6 mr-[9px]' src='images/weather.png' />
           <span>날씨 예보</span>
         </Link>
-        <Link to={'/temp'} className='flex items-center w-[186px] h-[56px]'>
+        <Link to={'/temp'} className='flex items-center'>
           <img className='w-6 h-6 mr-[9px]' src='images/temperature.png'/>
           <span>수온 정보</span>
         </Link>
-        <Link to={'/tide'} className='flex items-center w-[186px] h-[56px]'>
+        <Link to={'/tide'} className='flex items-center'>
           <img className='w-6 h-6 mr-[9px]' src='images/tide.png'/>
           <span>조석 정보</span>
         </Link>
-        <Link to={'/wave'} className='flex items-center w-[186px] h-[56px]'>
+        <Link to={'/wave'} className='flex items-center'>
           <img className='w-6 h-6 mr-[9px]' src='images/wave.png'/>
           <span>파고 정보</span>
         </Link>
