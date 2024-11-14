@@ -47,7 +47,7 @@ const MainPage: React.FC = () => {
                 <TideAndSun />
             </div>
 
-            <AutoSearch setBeach={setBeach} containerStyle={{ top: '33%', left: '50%', transform: 'translate(-50%, -50%)'}}/>
+            <AutoSearch setBeach={setBeach} containerStyle={{ top: '33%', left: '50%', transform: 'translate(-50%, -50%)'}} inputStyle={{ border: 'none'}}/>
         </div>
     );
 };

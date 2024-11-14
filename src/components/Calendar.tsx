@@ -6,7 +6,6 @@ import { styled } from "styled-components";
 
 const Calendar: React.FC = () => {
   const [startDate, setStartDate] = useState(new Date());
-  
 
   return (
     <DatepickerWrapper>

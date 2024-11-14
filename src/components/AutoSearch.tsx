@@ -1,41 +1,45 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import styled from 'styled-components'
-
 import { beaches } from '../beachList';
 
-type props = {
+type Props = {
   setBeach?: React.Dispatch<React.SetStateAction<string>>;
   containerStyle?: React.CSSProperties;
   inputStyle?: React.CSSProperties;
-  showImg?: boolean; 
+  showImg?: boolean;
 }
 
-const AutoSearch: React.FC<props> = ({ setBeach, containerStyle, inputStyle, showImg = true }) => {  
+const AutoSearch: React.FC<Props> = ({ setBeach, containerStyle, inputStyle, showImg = true }) => {  
   const [keyword, setKeyword] = useState<string>("");     // 검색어
   const [autoItems, setAutoItems] = useState<string[]>([]); // 자동완성된 검색어 목록
 
-  const onChangeData = (e: React.FormEvent<HTMLInputElement>) => {
+  const onChangeData = useCallback((e: React.FormEvent<HTMLInputElement>) => {
     setKeyword(e.currentTarget.value);
-  }
-  
-  // 자동완성 만들기
-  const updateData = () => {
-    let filteredBeaches = beaches.filter((beach) => 
+  }, []);
+
+  const handleSelectItem = useCallback((item: string) => {
+    setKeyword(item);
+    if (setBeach) setBeach(item);
+  }, [setBeach]);
+
+  const updateData = useCallback(() => {
+    const filteredBeaches = beaches.filter((beach) => 
       beach.includes(keyword)
     ).slice(0, 10);  // 최대 10개 결과로 제한
     setAutoItems(filteredBeaches);
-  }
+  }, [keyword]);
 
-  // 200ms 동안 멈춘 후 데이터를 업데이트함
   useEffect(() => {
+    if (!keyword) return setAutoItems([]);
+    
     const debounce = setTimeout(() => {
-      if(keyword) updateData();
-    }, 200)
+      updateData();
+    }, 200);
 
-    return () => {
-      clearTimeout(debounce)
-    }
-  }, [keyword])  
+    return () => clearTimeout(debounce);
+  }, [keyword, updateData]);
+
+  const hasResults = autoItems.length > 0;
 
   return (
     <div>
@@ -43,16 +47,16 @@ const AutoSearch: React.FC<props> = ({ setBeach, containerStyle, inputStyle, sho
         <SearchInput 
           value={keyword} 
           onChange={onChangeData} 
-          hasResults={autoItems.length > 0} 
+          hasResults={hasResults} 
           style={inputStyle}
         />
-        { showImg && <img src="images/search.png" alt="searchIcon" /> }
-        {autoItems.length > 0 && keyword && (
-          <AutoSearchContainer hasResults={autoItems.length > 0}>
+        {showImg && <img src="images/search.png" alt="searchIcon" />}
+        {hasResults && keyword && (
+          <AutoSearchContainer hasResults={hasResults}>
             <ul>
-              {autoItems.map((item, idx) => (
-                <AutoSearchData key={item} onClick={() => setKeyword(item)}>
-                  <span onClick={() => setBeach(item)}>{item}</span>
+              {autoItems.map((item) => (
+                <AutoSearchData key={item} onClick={() => handleSelectItem(item)}>
+                  <span>{item}</span>
                 </AutoSearchData>
               ))}
             </ul>
@@ -60,7 +64,7 @@ const AutoSearch: React.FC<props> = ({ setBeach, containerStyle, inputStyle, sho
         )}
       </SearchContainer>
     </div>
-  )
+  );
 }
 
 interface SearchInputProps {
@@ -78,7 +82,7 @@ const SearchContainer = styled.div`
     width: 30px;
     height: 30px;
   }
-`
+`;
 
 const SearchInput = styled.input<SearchInputProps>`
   padding-left: 20px;
@@ -87,18 +91,20 @@ const SearchInput = styled.input<SearchInputProps>`
   height: 100%;
   border-radius: ${({ hasResults }) => (hasResults ? '15px 15px 0 0' : '15px')};
   box-shadow: ${({ hasResults }) => (hasResults ? '0px 5px 10px 1px rgba(0, 0, 0, 0.1)' : 'none')};
-`
+  border: ${({ hasResults }) => (hasResults ? '2px solid #e4e4e7' : '2px solid #0EA5E9')}; // 수정된 부분
+
+`;
 
 const AutoSearchContainer = styled.div<SearchInputProps>`
+  position: relative;
   height: auto;
   width: 100%;
   background-color: #fff;
-  position: absolute;
-  top: 45px;
   padding: 20px;
   box-shadow: ${({ hasResults }) => (hasResults ? '0px 5px 10px 1px rgba(0, 0, 0, 0.35)' : 'none')};
   border-radius: 0 0 15px 15px;
-`
+  z-index: 2;
+`;
 
 const AutoSearchData = styled.li`
   padding: 8px 0px;
@@ -116,6 +122,6 @@ const AutoSearchData = styled.li`
     top: 50%;
     transform: translateY(-50%);
   }
-`
+`;
 
-export default AutoSearch
+export default AutoSearch;

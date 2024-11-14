@@ -5,7 +5,8 @@ const WeatherPage: React.FC = () => {
     return (
         <div>
             <Header showTitle={false}/>
-            <Search/>
+            <Search style={{padding: '30px'}}/>
+            
         </div>
     )
 }
