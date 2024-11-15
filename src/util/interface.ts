@@ -11,7 +11,12 @@ export interface WeatherData {
 }
 
 export type TideData = {
-    tph_level: string,
-    tph_time: string,
+    tph_level: string;
+    tph_time: string;
     hl_code: '고조' | '저조'
+}
+
+export type Coordinate = {
+    lat: number;
+    lng: number
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import styled from 'styled-components'
-import { beaches } from '../beachList';
+import { beaches } from '../util/beachList';
 
 type Props = {
   setBeach?: React.Dispatch<React.SetStateAction<string>>;

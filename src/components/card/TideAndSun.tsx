@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { fetchHighAndLowTide } from '../../api'
-import { TideData } from '../../interface'
+import { fetchHighAndLowTide } from '../../util/api'
+import { TideData } from '../../util/interface'
 
 const TideAndSun: React.FC = () => {
     const { data, isLoading, isError } = useQuery({

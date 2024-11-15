@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { date, time } from './getDate';
 import { emojies } from './weatherEmoji';
-import { WeatherData } from './interface';
-import { TideData } from './interface';
+import { Coordinate, WeatherData, TideData } from './interface';
 
 const key1 = '4cO3mbOrpYGMwt0QP2coIoApx8hLR0KNJxAIzQ1gHQHSLQcODgd/Pdn6vlQsamSDSzloxkX2N24lFEdHxQCGow==';
 const key2 = 'XxVn8I4Z6RnfRQJ3pth6hQ==';
+const kakaoApiKey = '724f3015a8ebc1aae3b6866e1c702938';
 
 export const fetchWeatherData = async (): Promise<WeatherData> => {
     try {
@@ -128,6 +128,28 @@ export const fetchHighAndLowTide = async (): Promise<TideData[]> => {
 
     } catch (error) {
         console.error("API 호출 실패: ", error);
-        throw new Error("파고 데이터를 가져오는 중 오류가 발생했습니다.");
+        throw new Error("만조, 간조 데이터를 가져오는 중 오류가 발생했습니다.");
     }
+}
+
+// 카카오맵 api - 좌표로 행정구역정보 받기
+export const fetchAddress = async (lng: number, lat: number) => {
+    try {
+        const res = await axios.get(`https://dapi.kakao.com/v2/local/geo/coord2address.json`, {
+            params: {
+                x: lng,
+                y: lat
+            },
+            headers: {
+                Authorization: `KakaoAK ${kakaoApiKey}`
+            }
+        });
+
+        console.log(res);
+        
+    } catch (error) {
+        console.error("API 호출 실패: ", error);
+        throw new Error("행정구역 데이터를 가져오는 중 오류가 발생했습니다.");
+    }
+
 }
