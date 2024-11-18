@@ -1,8 +1,8 @@
 // MainPage.tsx
-import "../App.css";
-import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { fetchWeatherData } from "../util/api";
+import { processWeatherItems } from '../util/utils';
 import Header from "../components/Header";
 import Weather from '../components/card/Weather';
 import WaterTmp from '../components/card/WaterTmp';
@@ -25,6 +25,9 @@ const MainPage: React.FC = () => {
         return <div>Error fetching data</div>;
     }
 
+    // fetchWeatherData에서 반환된 items를 처리하여 필요한 데이터만 추출
+    const { tmp, pty, sky, emoji } = processWeatherItems(data);
+
     return (
         <div 
             className="w-screen h-screen bg-cover" 
@@ -38,12 +41,12 @@ const MainPage: React.FC = () => {
             
             <div className="absolute flex w-4/5 justify-around top-2/4 left-1/2 transform -translate-x-1/2 -translate-y-10">
                 <Weather 
-                    emoji={data?.emoji || ""} 
-                    sky={data?.sky || ""} 
-                    pty={data?.pty || ""} 
-                    tmp={data?.tmp[0]?.fcstValue || ""}
+                    emoji={emoji || ""} 
+                    sky={sky || ""} 
+                    pty={pty || ""} 
+                    tmp={tmp[0]?.fcstValue || ""}
                 />
-                <WaterTmp tmp={data?.tmp || []} />
+                <WaterTmp tmp={tmp || []} />
                 <TideAndSun />
             </div>
 

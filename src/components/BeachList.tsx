@@ -14,8 +14,8 @@ const extractInitial = (word: string): string => {
 };
 
 // 해수욕장들을 초성에 맞게 분류하는 함수
-const categorizeBeaches = (beaches: string[]) => {
-  const categorized: { [key: string]: string[] } = {
+const categorizeBeaches = (beaches: { num: number; name: string }[]) => {
+  const categorized: { [key: string]: { num: number; name: string }[] } = {
     가: [],
     나: [],
     다: [],
@@ -32,55 +32,55 @@ const categorizeBeaches = (beaches: string[]) => {
     하: [],
   };
 
-  beaches.forEach((beach) => {
-    const initial = extractInitial(beach);
+  beaches.forEach(({ num, name }) => {
+    const initial = extractInitial(name);
     switch (initial) {
       case "ㄱ":
       case "ㄲ":
-        categorized["가"].push(beach);
+        categorized["가"].push({ num, name });
         break;
       case "ㄴ":
-        categorized["나"].push(beach);
+        categorized["나"].push({ num, name });
         break;
       case "ㄷ":
       case "ㄸ":
-        categorized["다"].push(beach);
+        categorized["다"].push({ num, name });
         break;
       case "ㄹ":
-        categorized["라"].push(beach);
+        categorized["라"].push({ num, name });
         break;
       case "ㅁ":
-        categorized["마"].push(beach);
+        categorized["마"].push({ num, name });
         break;
       case "ㅂ":
       case "ㅃ":
-        categorized["바"].push(beach);
+        categorized["바"].push({ num, name });
         break;
       case "ㅅ":
       case "ㅆ":
-        categorized["사"].push(beach);
+        categorized["사"].push({ num, name });
         break;
       case "ㅇ":
-        categorized["아"].push(beach);
+        categorized["아"].push({ num, name });
         break;
       case "ㅈ":
       case "ㅉ":
-        categorized["자"].push(beach);
+        categorized["자"].push({ num, name });
         break;
       case "ㅊ":
-        categorized["차"].push(beach);
+        categorized["차"].push({ num, name });
         break;
       case "ㅋ":
-        categorized["카"].push(beach);
+        categorized["카"].push({ num, name });
         break;
       case "ㅌ":
-        categorized["타"].push(beach);
+        categorized["타"].push({ num, name });
         break;
       case "ㅍ":
-        categorized["파"].push(beach);
+        categorized["파"].push({ num, name });
         break;
       case "ㅎ":
-        categorized["하"].push(beach);
+        categorized["하"].push({ num, name });
         break;
       default:
         break;
@@ -131,11 +131,15 @@ const BeachList: React.FC<Props> = ({ beach, setBeach }) => {
         <div className="text-sm">
           <p>{selectedInitial}로 시작하는 해수욕장</p>
           {categorizedBeaches[selectedInitial].length > 0 ? (
-            categorizedBeaches[selectedInitial].map((name, index) => (
+            categorizedBeaches[selectedInitial].map(({num, name}, index) => (
               <button
                 key={index}
                 className="mr-[5px] my-[5px] p-[5px] rounded-md cursor-pointer text-xs"
-                onClick={() => { setBeach(name); setSelectedBeach(name); }}
+                onClick={() => { 
+                  setBeach(name); 
+                  setSelectedBeach(name); 
+                  console.log(`Selected brach num: ${num}`)
+                }}
                 style={{
                   backgroundColor: selectedBeach === name ? "#cbd5e1" : "#e2e8f0"
                 }}

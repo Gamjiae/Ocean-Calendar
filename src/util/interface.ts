@@ -20,3 +20,28 @@ export type Coordinate = {
     lat: number;
     lng: number
 }
+
+export type WeatherItem = {
+    beachNum: string;
+    baseDate: string;
+    baseTime: string;
+    category: string;
+    fcstDate: string;
+    fcstTime: string;
+    fcstValue: string;
+    nx: number;
+    ny: number;
+}
+
+export type WeatherResponse = {
+    items: {
+        item: WeatherItem[];
+    };
+};
+
+export type TransformedData = {
+    tmp: { fcstTime: string; fcstValue: string }[];
+    pty: string;
+    sky: string;
+    emoji: string;
+};

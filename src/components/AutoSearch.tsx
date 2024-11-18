@@ -23,9 +23,12 @@ const AutoSearch: React.FC<Props> = ({ setBeach, containerStyle, inputStyle, sho
   }, [setBeach]);
 
   const updateData = useCallback(() => {
-    const filteredBeaches = beaches.filter((beach) => 
-      beach.includes(keyword)
-    ).slice(0, 10);  // 최대 10개 결과로 제한
+    const filteredBeaches = beaches
+      .filter((beach) => 
+        beach.name.includes(keyword)
+      )
+      .slice(0, 10)  // 최대 10개 결과로 제한
+      .map((beach) => beach.name); // 이름만 추출하여 문자열 배열로 변환
     setAutoItems(filteredBeaches);
   }, [keyword]);
 

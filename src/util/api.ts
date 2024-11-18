@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { date, time } from './getDate';
-import { emojies } from './weatherEmoji';
-import { WeatherData, TideData } from './interface';
+import { emojies } from './utils';
+import { WeatherItem, TideData } from './interface';
 
 const key1 = '4cO3mbOrpYGMwt0QP2coIoApx8hLR0KNJxAIzQ1gHQHSLQcODgd/Pdn6vlQsamSDSzloxkX2N24lFEdHxQCGow==';
 const key2 = 'XxVn8I4Z6RnfRQJ3pth6hQ==';
 const kakaoApiKey = '724f3015a8ebc1aae3b6866e1c702938';
 
-export const fetchWeatherData = async (): Promise<WeatherData> => {
+export const fetchWeatherData = async (): Promise<WeatherItem[]> => {
     try {
         const res = await axios.get('http://apis.data.go.kr/1360000/BeachInfoservice/getUltraSrtFcstBeach', {
             params: {
@@ -23,44 +23,9 @@ export const fetchWeatherData = async (): Promise<WeatherData> => {
 
         const items = res.data.response.body.items.item;
 
-        // 온도 정보
-        const tmp = items
-            .filter((item: any) => item.category === 'T1H')
-            .slice(0, 3)
-            .map((item: any) => ({
-                fcstTime: item.fcstTime,
-                fcstValue: item.fcstValue
-            }));
-
-        // 하늘 상태 객체
-        const skyMap: { [key: string]: { description: string, emoji: string } } = {
-            "1": { description: '맑음', emoji: emojies.sunny },
-            "3": { description: '구름 많음', emoji: emojies.manyCloud },
-            "4": { description: '흐림', emoji: emojies.cloudy }
-        };
-
-        // 강수량 객체 
-        const ptyMap: { [key: string]: { description: string, emoji: string } } = {
-            "0": { description: '강수량 없음', emoji: "" },
-            "1": { description: '비', emoji: emojies.raining },
-            "2": { description: '비/눈', emoji: emojies.rainAndSnow },
-            "3": { description: '눈', emoji: emojies.snowy },
-            "5": { description: '빗방울', emoji: emojies.raining },
-            "6": { description: '빗방울 눈날림', emoji: emojies.rainAndSnow },
-            "7": { description: '눈날림', emoji: emojies.rainAndSnow }
-        };
-
-        // 강수량 및 하늘 상태 값 가져오기
-        const ptyValue = items.find((item: any) => item.category === "PTY")?.fcstValue || "0";
-        const skyValue = items.find((item: any) => item.category === "SKY")?.fcstValue || "1";
-
-        // sky와 pty에 따른 최종 emoji 결정
-        const sky = skyMap[skyValue]?.description || "";
-        const pty = ptyMap[ptyValue]?.description || "";
-        const emoji = ptyValue === "0" ? skyMap[skyValue]?.emoji || "" : ptyMap[ptyValue]?.emoji || "";
-
-        console.log("API 호출 성공:", { tmp, pty, sky, emoji });
-        return { tmp, pty, sky, emoji };
+        console.log('items: ', items);
+        
+        return items;
     } catch (error) {
         console.error("API 호출 실패: ", error);
         throw new Error("데이터를 가져오는 중 오류가 발생했습니다.");
