@@ -1,13 +1,15 @@
 import { create } from 'zustand';
 
 interface Beach {
-    beach: string;
-    setBeach: (beach: string) => void;
+    beachName: string;
+    beachNum: number;
+    setBeach: (name: string, num: number) => void;
 } 
 
 export const useBeachStore = create<Beach>((set)=>({
-    beach: "",
-    setBeach: (b) => {
-        set((state) => ({ beach: b}))
+    beachName: "",
+    beachNum: 1,
+    setBeach: (name: string, num: number) => {
+        set({ beachName: name, beachNum: num})
     }
 }))

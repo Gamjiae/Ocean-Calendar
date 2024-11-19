@@ -1,22 +1,11 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { beaches } from '../util/beachList';
 import { useBeachStore } from '../util/useStore';
+import { AutoSearchProps, AutoDatas } from '../util/interface';
 
-type Props = {
-  containerStyle?: React.CSSProperties;
-  inputStyle?: React.CSSProperties;
-  showImg?: boolean;
-  onSelectBeach?: (beach: string) => void;
-}
-
-interface AutoDatas {
-  num: number;
-  name: string;
-}
-
-const AutoSearch: React.FC<Props> = ({ containerStyle, inputStyle, showImg = true, onSelectBeach }) => {  
-  const [keyword, setKeyword] = useState<string>("");     // 검색어
+const AutoSearch: React.FC<AutoSearchProps> = ({ containerStyle, inputStyle, showImg = true }) => {  
+  const [keyword, setKeyword] = useState<string>("");          // 검색어
   const [autoItems, setAutoItems] = useState<AutoDatas[]>([]); // 자동완성된 검색어 목록
   const [index, setIndex] = useState<number>(-1);
   const { setBeach } = useBeachStore();
@@ -26,35 +15,6 @@ const AutoSearch: React.FC<Props> = ({ containerStyle, inputStyle, showImg = tru
   const onChangeData = (e: React.FormEvent<HTMLInputElement>) => {
     setKeyword(e.currentTarget.value);
   };
-
-  useEffect(() => {
-    console.log("setBeach 함수가 변경되었습니다:", setBeach);
-  }, [setBeach]);
-  
-  useEffect(() => {
-    console.log("onSelectBeach 함수가 변경되었습니다:", onSelectBeach);
-  }, [onSelectBeach]);
-
-  // 자동완성 된 단어를 클릭할 경우
-  const handleSelectItem = useCallback((item: string) => {
-    console.log("선택된 단어:", item); // 클릭된 자동완성 단어 출력
-  
-    setKeyword(item); // input의 텍스트 업데이트
-    console.log("keyword 상태 업데이트:", item);
-  
-    setAutoItems([]); // 자동완성 리스트 숨김
-    console.log("자동완성 리스트 숨김: []");
-  
-    if (setBeach) {
-      setBeach(item); // 전역 상태 업데이트
-      console.log("전역 상태 setBeach 업데이트:", item);
-    }
-  
-    if (onSelectBeach) {
-      onSelectBeach(item); // 부모 컴포넌트에 데이터 전달
-      console.log("부모 컴포넌트에 전달된 해변 이름:", item);
-    }
-  }, [setBeach, onSelectBeach]);  
 
   const updateData = () => {
     const filteredBeaches = beaches
@@ -71,24 +31,22 @@ const AutoSearch: React.FC<Props> = ({ containerStyle, inputStyle, showImg = tru
     return () => clearTimeout(debounce);
   }, [keyword]);
 
-  const ArrowDown = "ArrowDown";
-  const ArrowUp = "ArrowUp";
-  const Escape = "Escape";
+
   const handleKeyArrow = (e:React.KeyboardEvent) => {
     if (autoItems.length > 0) {
       switch (e.key) {
-        case ArrowDown: //키보드 아래 키
+        case "ArrowDown": //키보드 아래 키
           setIndex(index + 1);
           if (autoRef.current?.childElementCount === index + 1) setIndex(0);
           break;
-        case ArrowUp: //키보드 위에 키
+        case "ArrowUp": //키보드 위에 키
           setIndex(index - 1);
           if (index <= 0) {
             setAutoItems([]);
             setIndex(-1);
           }
           break;
-        case Escape: // esc key를 눌렀을때,
+        case "Escape": // esc key를 눌렀을때,
           setAutoItems([]);
           setIndex(-1);
           break;
@@ -113,7 +71,7 @@ const AutoSearch: React.FC<Props> = ({ containerStyle, inputStyle, showImg = tru
           <img 
             src="images/search.png" 
             alt="searchIcon" 
-            className='cursor-pointer'
+            className="cursor-pointer"
           />}
         {hasResults && keyword && (
           <AutoSearchContainer hasResults={hasResults}>
@@ -121,7 +79,7 @@ const AutoSearch: React.FC<Props> = ({ containerStyle, inputStyle, showImg = tru
               {autoItems.map((item, idx) => (
                 <AutoSearchData 
                   key={item.num} 
-                  onClick={() => handleSelectItem(item.name)} 
+                  onClick={() => {setKeyword(item.name); setBeach(item.name, item.num)}} 
                   isFocus={index === idx ? true : false}
                 >
                   <span>{item.name}</span>

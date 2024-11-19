@@ -1,3 +1,14 @@
+export interface AutoSearchProps {
+    containerStyle?: React.CSSProperties;
+    inputStyle?: React.CSSProperties;
+    showImg?: boolean;
+}
+  
+export interface AutoDatas {
+    num: number;
+    name: string;
+}
+
 export interface ForecastData {
     fcstTime: string;
     fcstValue: string;
