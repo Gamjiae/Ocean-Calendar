@@ -1,13 +1,11 @@
 import axios from 'axios';
 import { date, time } from './getDate';
-import { emojies } from './utils';
 import { WeatherItem, TideData } from './interface';
 
 const key1 = '4cO3mbOrpYGMwt0QP2coIoApx8hLR0KNJxAIzQ1gHQHSLQcODgd/Pdn6vlQsamSDSzloxkX2N24lFEdHxQCGow==';
 const key2 = 'XxVn8I4Z6RnfRQJ3pth6hQ==';
-const kakaoApiKey = '724f3015a8ebc1aae3b6866e1c702938';
 
-export const fetchWeatherData = async (): Promise<WeatherItem[]> => {
+export const fetchWeatherData = async (num: number): Promise<WeatherItem[]> => {
     try {
         const res = await axios.get('http://apis.data.go.kr/1360000/BeachInfoservice/getUltraSrtFcstBeach', {
             params: {
@@ -17,7 +15,7 @@ export const fetchWeatherData = async (): Promise<WeatherItem[]> => {
                 dataType: 'JSON',
                 base_date: date,
                 base_time: time,
-                beach_num: 1 // 임시값
+                beach_num: num 
             }
         });
 

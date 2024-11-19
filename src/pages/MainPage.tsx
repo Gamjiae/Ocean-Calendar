@@ -1,4 +1,3 @@
-// MainPage.tsx
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchWeatherData } from "../util/api";
@@ -8,14 +7,26 @@ import Weather from '../components/card/Weather';
 import WaterTmp from '../components/card/WaterTmp';
 import TideAndSun from "../components/card/TideAndSun";
 import AutoSearch from "../components/AutoSearch";
+import { useBeachStore } from '../util/useStore';
+import { beaches } from '../util/beachList';
 
 const MainPage: React.FC = () => {
-    const [beach, setBeach] = useState<string>('');
-    
+    const [beachNum, setBeachNum] = useState<number | null>(1);
+    const { beach } = useBeachStore();
+
+    const num = 150;
     const { data, isLoading, isError } = useQuery({
-        queryKey: ['weather'], 
-        queryFn: fetchWeatherData,
+        queryKey: ['weather', beachNum], // beachNum 변경 시 API 호출 
+        queryFn: () => fetchWeatherData(beachNum || 1),
+        enabled: !!beachNum // beachNum이 있을 때만 실행
     });
+
+    const beachNumUpdate = (beach: string) => {
+        const selectedBeach = beaches.find(b => b.name === beach);
+        if (selectedBeach) {
+          setBeachNum(selectedBeach.num); // 선택된 해변의 num 업데이트
+        }
+    };
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -25,7 +36,6 @@ const MainPage: React.FC = () => {
         return <div>Error fetching data</div>;
     }
 
-    // fetchWeatherData에서 반환된 items를 처리하여 필요한 데이터만 추출
     const { tmp, pty, sky, emoji } = processWeatherItems(data);
 
     return (
@@ -50,7 +60,7 @@ const MainPage: React.FC = () => {
                 <TideAndSun />
             </div>
 
-            <AutoSearch setBeach={setBeach} containerStyle={{ top: '33%', left: '50%', transform: 'translate(-50%, -50%)'}} inputStyle={{ border: 'none'}}/>
+            <AutoSearch containerStyle={{ top: '33%', left: '50%', transform: 'translate(-50%, -50%)'}} inputStyle={{ border: 'none'}} onSelectBeach={beachNumUpdate}/>
         </div>
     );
 };
