@@ -4,7 +4,7 @@ interface Beach {
     beachName: string;
     beachNum: number;
     setBeach: (name: string, num: number) => void;
-} 
+}
 
 export const useBeachStore = create<Beach>((set)=>({
     beachName: "을왕리 해수욕장",

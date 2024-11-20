@@ -4,7 +4,7 @@ import { TideData } from '../../util/interface'
 import { datas } from '../../util/mapping'
 import { useBeachStore } from '../../util/useStore'
 
-const TideAndSun: React.FC = () => {
+const TideAndSun: React.FC = () => { 
     const { beachName } = useBeachStore();
     const stationId = datas[beachName];
 

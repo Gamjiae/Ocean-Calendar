@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import fs from "fs";
 import { aPlaces } from "./a";
 import { bPlaces } from "./b";
 
