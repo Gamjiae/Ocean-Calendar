@@ -4,15 +4,6 @@ import { processWeatherItems } from '../../util/utils';
 import { useBeachStore } from '../../util/useStore';
 import { fetchWeatherData } from '../../util/api';
 
-type ForecastData = {
-    fcstTime: string;
-    fcstValue: string;
-}
-
-type props = {
-   tmp: ForecastData[]
-}
-
 const WaterTmp: React.FC = () => {
     const { beachNum } = useBeachStore();
 

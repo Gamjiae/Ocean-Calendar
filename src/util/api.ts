@@ -73,12 +73,12 @@ export const fetchTide = async () => {
 }
 
 // 만조, 간조
-export const fetchHighAndLowTide = async (): Promise<TideData[]> => {
+export const fetchHighAndLowTide = async (stationId: string): Promise<TideData[]> => {
     try {
         const res = await axios.get('http://www.khoa.go.kr/api/oceangrid/tideObsPreTab/search.do', {
             params: {
                 ServiceKey: key2,
-                ObsCode: 'DT_0063', // 임시값
+                ObsCode: stationId, 
                 Date: date,
                 ResultType: 'json'
             }

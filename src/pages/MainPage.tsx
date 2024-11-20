@@ -1,6 +1,3 @@
-import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { fetchWeatherData } from "../util/api";
 import Header from "../components/Header";
 import Weather from '../components/card/Weather';
 import WaterTmp from '../components/card/WaterTmp';

@@ -18,7 +18,7 @@ const formatTime = (fcstTime: string): string => {
 const Graph: React.FC<props> = ({ tmp }) => {
     const data = [{
         id: 'line',
-        data: tmp.map((item, index) => ({
+        data: tmp.map(item => ({
             x: formatTime(item.fcstTime),
             y: parseFloat(item.fcstValue) || 0
         }))

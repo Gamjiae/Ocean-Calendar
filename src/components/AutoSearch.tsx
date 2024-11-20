@@ -8,9 +8,11 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ containerStyle, inputStyle, sho
   const [keyword, setKeyword] = useState<string>("");          // 검색어
   const [autoItems, setAutoItems] = useState<AutoDatas[]>([]); // 자동완성된 검색어 목록
   const [index, setIndex] = useState<number>(-1);
+  const [isListOpen, setIsListOpen] = useState<boolean>(true);
   const { setBeach } = useBeachStore();
 
   const autoRef = useRef<HTMLUListElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const onChangeData = (e: React.FormEvent<HTMLInputElement>) => {
     setKeyword(e.currentTarget.value);
@@ -20,18 +22,28 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ containerStyle, inputStyle, sho
     const filteredBeaches = beaches
       .filter((beach) => beach.name.includes(keyword))
       .slice(0, 10);  // 최대 10개 결과로 제한
+
+    // 중복 데이터 업데이트 방지
+    if (
+      filteredBeaches.length === autoItems.length &&
+      filteredBeaches.every((item, idx) => item.name === autoItems[idx].name)
+    ) {
+      return;
+    }
     setAutoItems(filteredBeaches);
+    console.log('autoItems:', autoItems);
+    console.log('keyword:', keyword);
   };
 
   useEffect(() => {
     const debounce = setTimeout(() => {
       if(keyword) updateData();
     }, 200);
-
+    
     return () => clearTimeout(debounce);
   }, [keyword]);
 
-
+  // 키보드로 자동 완성 단어 조작
   const handleKeyArrow = (e:React.KeyboardEvent) => {
     if (autoItems.length > 0) {
       switch (e.key) {
@@ -54,16 +66,36 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ containerStyle, inputStyle, sho
     } 
   }
 
+  // 영역 밖 클릭시 자동완성창 닫음
+  const handleClickOutside = (e: MouseEvent) => {
+    if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      setIsListOpen(false);
+      console.log('AutoItems:', autoItems);
+      console.log('Keyword:', keyword);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const onFocusInput = () => {
+    if (keyword.trim()) {
+      updateData(); // keyword에 따라 autoItems를 다시 업데이트
+    }
+  };
+
   const hasResults = autoItems.length > 0;
 
   return (
-    <div>
+    <div ref={containerRef}>
       <SearchContainer style={containerStyle}>
         <SearchInput 
           value={keyword} 
           onChange={onChangeData} 
           hasResults={hasResults} 
           onKeyDown={handleKeyArrow}
+          onFocus={() => setIsListOpen(true)}
           style={inputStyle}
           placeholder='해변 이름을 검색하세요.'
         />
@@ -73,13 +105,13 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ containerStyle, inputStyle, sho
             alt="searchIcon" 
             className="cursor-pointer"
           />}
-        {hasResults && keyword && (
+        {isListOpen && hasResults && keyword && (
           <AutoSearchContainer hasResults={hasResults}>
             <ul ref={autoRef}>
               {autoItems.map((item, idx) => (
                 <AutoSearchData 
                   key={item.num} 
-                  onClick={() => {setKeyword(item.name); setBeach(item.name, item.num)}} 
+                  onClick={() => {setKeyword(item.name); setBeach(item.name, item.num); setIsListOpen(false);}} 
                   isFocus={index === idx ? true : false}
                 >
                   <span>{item.name}</span>

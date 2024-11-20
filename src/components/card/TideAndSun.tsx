@@ -1,12 +1,17 @@
-import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { fetchHighAndLowTide } from '../../util/api'
 import { TideData } from '../../util/interface'
+import { datas } from '../../util/mapping'
+import { useBeachStore } from '../../util/useStore'
 
 const TideAndSun: React.FC = () => {
+    const { beachName } = useBeachStore();
+    const stationId = datas[beachName];
+
     const { data, isLoading, isError } = useQuery({
-        queryKey: ['HighAndLowTide'], 
-        queryFn: fetchHighAndLowTide
+        queryKey: ['HighAndLowTide', stationId], 
+        queryFn: () => fetchHighAndLowTide(stationId),
+        enabled: !!stationId,
     });
 
     const highTide = data?.filter((item: TideData) => item.hl_code === '고조') || [];
