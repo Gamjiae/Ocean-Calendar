@@ -18,12 +18,18 @@ const Search: React.FC<Props> = ({ style, beach, setBeach }) => {
   return (
     <div style={style}>
       <div className="flex items-center">
-        <span className="mr-2 text-zinc-600 text-sm">해수욕장 선택</span>
+        <span className="w-[100px] text-zinc-600 text-sm">해수욕장 선택</span>
         <button 
           className='mr-5'
           onClick={() => setSelect('name')}>가나다</button>
-        <button className='mr-5' onClick={() => setSelect('map')}>지도</button>
+        <button className=' mr-5' onClick={() => setSelect('map')}>지도</button>
         <button onClick={() => setSelect('search')}>검색</button>
+        <button 
+          className="bg-sky-500 text-white p-1 text-sm h-[25px] ml-10 rounded-md"
+          // onClick={handleFetchData}  
+        >
+          결과 조회
+        </button>
       </div>
       { select === 'name' && (
         <BeachList beach={beach} setBeach={setBeach} />
@@ -43,16 +49,10 @@ const Search: React.FC<Props> = ({ style, beach, setBeach }) => {
           showImg={false}
         />
       )}
-      <div className="flex items-center">
-        <span className="mr-2 text-zinc-600 text-sm">날짜 선택</span>
+      <div className="flex items-center mt-2">
+        <span className="w-[100px] text-zinc-600 text-sm">날짜 선택</span>
         <Calendar />
       </div>
-      <button 
-        className="bg-sky-500 text-white p-0.5 text-sm h-[25px]"
-        // onClick={handleFetchData}  
-      >
-        결과 조회
-      </button>
     </div>
   );
 };

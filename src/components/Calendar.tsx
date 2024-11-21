@@ -1,21 +1,25 @@
-import { useState } from "react";
-import DatePicker, { registerLocale } from "react-datepicker";
+import React, { HTMLProps, useState } from "react";
+import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'; // 기본 css
 import { ko } from "date-fns/locale"
 import { styled } from "styled-components";
 
-const Calendar: React.FC = () => {
+interface Props {
+  style?: React.CSSProperties;
+  className?: HTMLProps<HTMLElement>["className"];
+}
+
+const Calendar: React.FC<Props> = () => {
   const [startDate, setStartDate] = useState(new Date());
 
   return (
-    <DatepickerWrapper>
+    <Wrapper>
       <DatePicker
         showIcon
         dateFormat="yyyy년 MM월 dd일"
         dateFormatCalendar="yyyy년 MM월"
         selected={startDate}
         onChange={(date: Date) => setStartDate(date)}
-        className="red-border"
         locale={ko}
         icon={
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
@@ -23,14 +27,14 @@ const Calendar: React.FC = () => {
           </svg>
         }
       />
-    </DatepickerWrapper>
+    </Wrapper>
   )
 }
 
 
-const DatepickerWrapper = styled.div`
+const Wrapper = styled.div`
   .react-datepicker__input-container {
-    border: 2px solid rgb(186, 217, 241);
+    border: 2px solid #a6cfe9;
     display: flex;
     align-items: center; 
   }
@@ -48,14 +52,13 @@ const DatepickerWrapper = styled.div`
     color: #3f3f46;
     margin-left: 8px;
     caret-color: transparent;
+    &:focus {
+      outline: none;
+    }
   }
 
   .react-datepicker { // 캘린더의 테두리 지정
     border-radius: 12px;
-  }
-
-  .react-datepicker__navigation-icon react-datepicker__navigation-icon--previous {
-
   }
 
   .react-datepicker__header { // 캘린더의 Header
@@ -91,14 +94,9 @@ const DatepickerWrapper = styled.div`
     border-radius: 15px;
   }
 
-  .react-datepicker__day--today { // 오늘 날짜
-    
-  }
-
   .react-datepicker__day--outside-month { // 현재 달이 아닌 날짜
     color: grey;
   }
 `
-
 
 export default Calendar

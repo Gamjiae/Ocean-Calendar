@@ -109,7 +109,7 @@ const BeachList: React.FC<Props> = ({ beach, setBeach }) => {
   }, [beach]);
 
   return (
-    <div className="p-4">
+    <div className="ml-[100px] mt-4">
       {/* 초성 버튼들 */}
       <div className="mb-4">
         {Object.keys(categorizedBeaches).map((initial) => (

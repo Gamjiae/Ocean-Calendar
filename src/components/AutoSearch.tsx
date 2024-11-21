@@ -150,7 +150,9 @@ const SearchInput = styled.input<SearchInputProps>`
   border-radius: ${({ hasResults }) => (hasResults ? '15px 15px 0 0' : '15px')};
   box-shadow: ${({ hasResults }) => (hasResults ? '0px 5px 10px 1px rgba(0, 0, 0, 0.1)' : 'none')};
   border: ${({ hasResults }) => (hasResults ? '2px solid #e4e4e7' : '2px solid #0EA5E9')}; // 수정된 부분
-
+  &:focus {
+    outline: none;
+  }
 `;
 
 const AutoSearchContainer = styled.div<SearchInputProps>`
