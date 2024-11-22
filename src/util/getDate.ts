@@ -5,11 +5,13 @@ let day = String(today.getDate()).padStart(2, "0");
 
 let hour = today.getHours();
 let minute = today.getMinutes();
-export let time = "";
 
-// API를 1시간 단위로 설정하기 위한 조건 처리
+export let timeForWeather = "";
+export let timeForWaterTemp = [""];
+
+// 초단기 API를 1시간 단위로 설정
 if (minute < 45) {
-    if (hour === 0) { // 자졍일 경우
+    if (hour === 0) { // 자정일 경우
         hour = 23;
 
         // 전날 날짜로 설정
@@ -21,9 +23,19 @@ if (minute < 45) {
     } else {
         hour -= 1;
     }
-    time = String(hour).padStart(2, "0") + "30";
+    timeForWeather = String(hour).padStart(2, "0") + "30";
 } else {
-    time = String(hour).padStart(2, "0") + "30";
+    timeForWeather = String(hour).padStart(2, "0") + "30";
 }
 
 export let date = `${year}${month}${day}`;
+
+// 수온 API를 위한 시간 설정 (3시간 이전부터 지금까지의 시간)
+for (let i = 0; i < 12; i++) {
+    let tempHour = hour - i;
+    if (tempHour < 0) {
+        tempHour += 24;
+    }
+
+    timeForWaterTemp[i] = String(tempHour).padStart(2, "0") + String(minute).padStart(2, "0");
+}

@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { date, time } from './getDate';
-import { WeatherItem, TideData } from './interface';
+import { date, timeForWaterTemp, timeForWeather } from './getDate';
+import { WeatherItem, WaterTempItem, TideData } from './interface';
 
 const key1 = '4cO3mbOrpYGMwt0QP2coIoApx8hLR0KNJxAIzQ1gHQHSLQcODgd/Pdn6vlQsamSDSzloxkX2N24lFEdHxQCGow==';
 const key2 = 'XxVn8I4Z6RnfRQJ3pth6hQ==';
@@ -14,7 +14,7 @@ export const fetchWeatherData = async (num: number): Promise<WeatherItem[]> => {
                 pageNo: 1,
                 dataType: 'JSON',
                 base_date: date,
-                base_time: time,
+                base_time: timeForWeather,
                 beach_num: num 
             }
         });
@@ -26,7 +26,32 @@ export const fetchWeatherData = async (num: number): Promise<WeatherItem[]> => {
         return items;
     } catch (error) {
         console.error("API 호출 실패: ", error);
-        throw new Error("데이터를 가져오는 중 오류가 발생했습니다.");
+        throw new Error("초단기 날씨 데이터를 가져오는 중 오류가 발생했습니다.");
+    }
+};
+
+export const fetchWaterTemp = async (num: number): Promise<WaterTempItem[]> => {
+    try {
+        const results: WaterTempItem[] = [];
+
+        for (const time of timeForWaterTemp) {
+            const res = await axios.get('http://apis.data.go.kr/1360000/BeachInfoservice/getTwBuoyBeach?', {
+                params: {
+                    serviceKey: key1,
+                    dataType: 'JSON',
+                    beach_num: num,
+                    searchTime: date + time,
+                },
+            });
+            results.push(...res.data.response.body.items.item);
+        }
+
+        console.log('Water Temperature for 12 Hours:', results);
+        return results;
+
+    } catch (error) {
+        console.error("API 호출 실패: ", error);
+        throw new Error("수온 데이터를 가져오는 중 오류가 발생했습니다.");
     }
 };
 
@@ -39,7 +64,7 @@ export const fetchWaveHeight = async () => {
                 pageNo: 1,
                 dataType: 'JSON',
                 base_date: date,
-                base_time: time,
+                base_time: timeForWeather,
                 beach_num: 1 // 임시값
             }
         });

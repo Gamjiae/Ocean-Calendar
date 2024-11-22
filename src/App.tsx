@@ -1,4 +1,4 @@
-import Main from './pages/MainPage';
+import MainPage from './pages/MainPage';
 import TempPage from './pages/TempPage';
 import TidePage from './pages/TidePage';
 import WavePage from './pages/WavePage';
@@ -15,7 +15,7 @@ const App: React.FC = () => {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route path="/" element={<MainPage />} />
         <Route path="/weather" element={<WeatherPage />} />
         <Route path="/temp" element={<TempPage />} />
         <Route path="/tide" element={<TidePage />} />

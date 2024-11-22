@@ -29,7 +29,7 @@ export type TideData = {
 
 export type Coordinate = {
     lat: number;
-    lng: number
+    lng: number;
 }
 
 export type WeatherItem = {
@@ -44,11 +44,11 @@ export type WeatherItem = {
     ny: number;
 }
 
-export type WeatherResponse = {
-    items: {
-        item: WeatherItem[];
-    };
-};
+export interface WaterTempItem {
+    beachNum: string;
+    tm: string;  // 관측시간(년월일시분)
+    tw: string;  // 수온
+}
 
 export type TransformedData = {
     tmp: { fcstTime: string; fcstValue: string }[];

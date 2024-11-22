@@ -1,14 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { processWeatherItems } from '../../util/utils';
+import { processWeatherItems } from '../../util/apiUtils';
 import { useBeachStore } from '../../util/useStore';
 import { fetchWeatherData } from '../../util/api';
-
-type props = {
-    emoji: string,
-    sky: string,
-    tmp: string,
-    pty: string
-}
 
 const Weather: React.FC = () => {
     const { beachNum } = useBeachStore();

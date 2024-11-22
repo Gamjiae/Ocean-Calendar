@@ -1,17 +1,15 @@
 import { ResponsiveLine } from '@nivo/line';
-
-type ForecastData = {
-    fcstTime: string;
-    fcstValue: string;
-}
+import { WaterTempItem } from '../util/interface';
 
 type props = {
-    tmp: ForecastData[]
+    tmp: WaterTempItem[]
 }
 
-const formatTime = (fcstTime: string): string => {
-    const hours = fcstTime.slice(0, 2);
-    const minutes = fcstTime.slice(2, 4);
+const formatDate = (d: string): string => {
+    //const month = d.slice(4, 6);
+    //const day = d.slice(6, 8);
+    const hours = d.slice(8, 10);
+    const minutes = d.slice(10, 12);
     return `${hours}:${minutes}`;
 }
 
@@ -19,12 +17,12 @@ const Graph: React.FC<props> = ({ tmp }) => {
     const data = [{
         id: 'line',
         data: tmp.map(item => ({
-            x: formatTime(item.fcstTime),
-            y: parseFloat(item.fcstValue) || 0
+            x: formatDate(item.tm),
+            y: parseFloat(item.tw) || 0
         }))
     }]
     
-    console.log(data[0].data);
+    console.log(data);
 
     return (
         <div className='h-4/5 w-full pb-6'>

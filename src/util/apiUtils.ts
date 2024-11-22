@@ -1,4 +1,4 @@
-import { WeatherItem, WeatherResponse } from "./interface";
+import { WaterTempItem, WeatherItem } from "./interface";
 
 export const emojies = {
     sunny: 'images/sunny.png',        // 맑음 (1)
@@ -25,7 +25,7 @@ const ptyMap: { [key: string]: { description: string, emoji: string } } = {
     "7": { description: '눈날림', emoji: emojies.rainAndSnow }
 };
 
-// items를 분리하는 함수
+// 초단기 날씨 데이터에서 온도, 강수량, 하늘상태를 가져오고 이모지를 결정하는 함수
 export const processWeatherItems = (items: WeatherItem[]) => {
     // 온도 정보
     const tmp = items
@@ -45,5 +45,6 @@ export const processWeatherItems = (items: WeatherItem[]) => {
     const pty = ptyMap[ptyValue]?.description || "";
     const emoji = ptyValue === "0" ? skyMap[skyValue]?.emoji || "" : ptyMap[ptyValue]?.emoji || "";
 
+    console.log("tmp:", tmp);
     return { tmp, pty, sky, emoji };
 };

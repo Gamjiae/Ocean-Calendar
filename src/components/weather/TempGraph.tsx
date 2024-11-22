@@ -1,13 +1,18 @@
 import { ResponsiveLine } from '@nivo/line';
 
-const TempGraph: React.FC = () => {
-    const data = [{
-        id: 'line',
-        // data: tmp.map((item, index) => ({
-        //     x: formatTime(item.fcstTime),
-        //     y: parseFloat(item.fcstValue) || 0
-        // }))
-    }]
+interface Prop {
+    // tmp: 
+}
+
+const TempGraph: React.FC<Prop> = () => {
+    // 6개임..
+    // const data = [{
+    //     id: 'line',
+    //     data: tmp.map((item, index) => ({
+    //         x: formatTime(item.fcstTime),
+    //         y: parseFloat(item.fcstValue) || 0
+    //     }))
+    // }]
 
     return (
         <div>
