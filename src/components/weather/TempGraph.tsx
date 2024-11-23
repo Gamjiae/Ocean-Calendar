@@ -70,7 +70,7 @@ const TempGraph: React.FC<Prop> = ({fcstData, text, style}) => {
                     legendPosition: 'end',
                     truncateTickAt: 0
                 }}
-                enableGridX={true}
+                enableGridX={false}
                 pointSize={10}
                 pointBorderWidth={1}
                 enablePointLabel={true}

@@ -36,7 +36,6 @@ const Calendar: React.FC<Props> = () => {
   )
 }
 
-
 const Wrapper = styled.div`
   .react-datepicker__input-container {
     border: 2px solid #a6cfe9;

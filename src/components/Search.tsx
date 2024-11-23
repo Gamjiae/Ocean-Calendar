@@ -17,17 +17,13 @@ const Search: React.FC<Props> = ({ style }) => {
     <div style={style}>
       <div className="flex items-center">
         <span className="w-[100px] text-zinc-600 text-sm">해수욕장 선택</span>
-        <button 
-          className='mr-5'
-          onClick={() => setSelect('name')}>가나다</button>
-        <button className=' mr-5' onClick={() => setSelect('map')}>지도</button>
-        <button onClick={() => setSelect('search')}>검색</button>
-        <button 
-          className="bg-sky-500 text-white p-1 text-sm h-[25px] ml-10 rounded-md"
-          // onClick={handleFetchData}  
-        >
-          결과 조회
-        </button>
+        <div className='flex w-[191px] justify-around p-[5px] text-sm border-[2px]' style={{borderColor: '#a6cfe9'}}>
+          <button onClick={() => setSelect('name')}>가나다</button>
+          <div className='border-slate-400 border-r-[1px]'/>
+          <button onClick={() => setSelect('map')}>지도</button>
+          <div className='border-slate-400 border-r-[1px]'/>
+          <button onClick={() => setSelect('search')}>검색</button>
+        </div>
       </div>
       { select === 'name' && (
         <BeachList/>
