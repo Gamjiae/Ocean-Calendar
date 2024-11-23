@@ -99,7 +99,7 @@ const BeachList: React.FC = () => {
   const categorizedBeaches = categorizeBeaches(beaches);
 
   return (
-    <div className="ml-[100px] mt-4">
+    <div className="ml-[100px] my-4">
       {/* 초성 버튼들 */}
       <div className="mb-4">
         {Object.keys(categorizedBeaches).map((initial) => (
@@ -119,7 +119,6 @@ const BeachList: React.FC = () => {
       {/* 선택된 초성에 해당하는 해수욕장 버튼 리스트 */}
       {selectedInitial && (
         <div className="text-sm">
-          <p>{selectedInitial}로 시작하는 해수욕장</p>
           {categorizedBeaches[selectedInitial].length > 0 ? (
             categorizedBeaches[selectedInitial].map(({num, name}, index) => (
               <button

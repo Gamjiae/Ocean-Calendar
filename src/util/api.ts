@@ -5,8 +5,7 @@ import { WeatherItem, WaterTempItem, TideData } from './interface';
 const key1 = '4cO3mbOrpYGMwt0QP2coIoApx8hLR0KNJxAIzQ1gHQHSLQcODgd/Pdn6vlQsamSDSzloxkX2N24lFEdHxQCGow==';
 const key2 = 'XxVn8I4Z6RnfRQJ3pth6hQ==';
 
-export const FetchWeatherData = async (num: number): Promise<WeatherItem[]> => {
-    
+export const FetchWeatherData = async (num: number, selectedDate: string): Promise<WeatherItem[]> => {
     try {
         const res = await axios.get('http://apis.data.go.kr/1360000/BeachInfoservice/getUltraSrtFcstBeach', {
             params: {
@@ -14,7 +13,7 @@ export const FetchWeatherData = async (num: number): Promise<WeatherItem[]> => {
                 numOfRows: 60,
                 pageNo: 1,
                 dataType: 'JSON',
-                base_date: date,
+                base_date: selectedDate,
                 base_time: timeForWeather,
                 beach_num: num 
             }
@@ -47,7 +46,7 @@ export const fetchWaterTemp = async (num: number): Promise<WaterTempItem[]> => {
             results.push(...res.data.response.body.items.item);
         }
 
-        console.log('Water Temperature for 12 Hours:', results);
+        console.log('Water Temperature for 3 Hours:', results);
         return results;
 
     } catch (error) {

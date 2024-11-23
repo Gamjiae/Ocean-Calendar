@@ -25,17 +25,25 @@ const ptyMap: { [key: string]: { description: string, emoji: string } } = {
     "7": { description: '눈날림', emoji: emojies.rainAndSnow }
 };
 
-// 초단기 날씨 데이터에서 정보를 추출하는 함수
-export const processWeatherItems = (items: WeatherItem[]) => {
-    // 온도 정보
-    const tmp = items
-        .filter((item) => item.category === 'T1H')
+const filterItem = (data: WeatherItem[], name: string) => {
+    const newData = data
+        .filter((item) => item.category === name)
         .map((item) => ({
+            fcstDate: item.fcstDate,
             fcstTime: item.fcstTime,
             fcstValue: item.fcstValue
-        }));
+        })
+    );
 
-    // 강수량, 하늘 상태, 풍속 값 가져오기
+    return newData;
+}
+// 초단기 날씨 데이터에서 정보를 추출하는 함수
+export const processWeatherItems = (items: WeatherItem[]) => {
+    const tmp = filterItem(items, 'T1H'); // 기온
+    const wsd = filterItem(items, 'WSD'); // 풍속
+    const rn1 = filterItem(items, "RN1"); // 강수량
+    
+    // 강수형태, 하늘 상태, 풍속 값 가져오기
     const ptyValue = items.find((item) => item.category === "PTY")?.fcstValue || "0";
     const skyValue = items.find((item) => item.category === "SKY")?.fcstValue || "1";
 
@@ -43,10 +51,8 @@ export const processWeatherItems = (items: WeatherItem[]) => {
     const sky = skyMap[skyValue]?.description || "";
     const pty = ptyMap[ptyValue]?.description || "";
     const emoji = ptyValue === "0" ? skyMap[skyValue]?.emoji || "" : ptyMap[ptyValue]?.emoji || "";
-
-    const wsd = items.find((item) => item.category === "WSD")?.fcstValue || "0";
-
-    return { tmp, pty, sky, emoji, wsd };
+    
+    return { tmp, pty, sky, emoji, wsd, rn1 };
 };
 
 export const formatDateToYYYYMMDD = (date: Date): string => {

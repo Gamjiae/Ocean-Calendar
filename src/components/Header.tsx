@@ -9,7 +9,9 @@ const Header: React.FC<HeaderProps> = ({ showTitle = true }) => {
     <div className='flex items-center h-[60px] w-screen bg-sky-700 text-white'>
       {/* 사이트 이름 */}
       <div className='flex items-center'>
-        <img className='w-[30px] h-[30px] ml-3' src='images/titleImage.png' alt="Ocean Calendar logo"/>
+        <Link to='/'>
+          <img className='w-[30px] h-[30px] ml-3' src='images/titleImage.png' alt="Ocean Calendar logo"/>
+        </Link>
         {showTitle && (
           <span className='opacity-80 text-2xl ml-5 hidden md:block'>Ocean Calendar</span>
         )}

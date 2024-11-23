@@ -15,11 +15,12 @@ const Graph: React.FC<props> = ({ tmp }) => {
     const data = [{
         id: 'line',
         data: tmp.map(item => ({
-            x: formatTime(item.tm),
+            x: formatTime(item.tm) || 0,
             y: parseFloat(item.tw) || 0
         }))
     }]
     
+    const minValue = Math.min(...tmp.map(item => parseFloat(item.tw) || 0));
     console.log(data);
 
     return (
@@ -76,7 +77,7 @@ const Graph: React.FC<props> = ({ tmp }) => {
                 pointLabel="data.yFormatted"
                 pointLabelYOffset={-12}
                 enableArea={true}
-                areaBaselineValue={10}
+                areaBaselineValue={minValue}
                 enableCrosshair={false}
                 enableTouchCrosshair={true}
                 useMesh={true}

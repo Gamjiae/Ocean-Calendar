@@ -1,40 +1,21 @@
-import { useQuery } from '@tanstack/react-query'
 import Header from "../components/Header"
 import Search from "../components/Search"
-import { FetchWeatherData } from '../util/api'
-import { useBeachStore, useDateStore } from '../util/useStore'
-import { processWeatherItems } from '../util/apiUtils'
 import Graphs from '../components/weather/Graphs'
-
+import { useBeachStore } from "../util/useStore"
 
 const WeatherPage: React.FC = () => {
-    const { beachNum } = useBeachStore();
-
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ['weatherPage', beachNum], 
-        queryFn: () => FetchWeatherData(beachNum || 1)
-    });
-    
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
-    if (isError) {
-        return <div>Error fetching data</div>;
-    }
-
-    const { wsd } = processWeatherItems(data);
-    console.log(wsd);
-    const { tmp } = processWeatherItems(data);
+    const { beachName } = useBeachStore();
 
     return (
         <div className=''>
             <Header showTitle={false}/>
             <Search 
                 style={{padding: '30px'}}
-                // handleFetchData={handleFetchData}
             />
-            <Graphs tmp={tmp}/> 
+            <p className="ml-[30px]">
+                <span className="font-bold border-b-[1px] border-b-black">{beachName}</span>의 날씨 예보
+            </p>
+            <Graphs/> 
         </div>
     )
 }

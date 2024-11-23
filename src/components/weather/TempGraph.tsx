@@ -2,36 +2,44 @@ import { ResponsiveLine } from '@nivo/line';
 import { Fcst } from '../../util/interface';
 
 interface Prop {
-    tmp: Fcst[]
+    fcstData: Fcst[];
+    text: string;
+    style?: React.CSSProperties;
 }
 
-const formatTime = (d: string): string => {
-    const hours = d.slice(0, 2);
-    const minutes = d.slice(2, 4);
-    return `${hours}:${minutes}`;
+const formatTime = (d: string, t: string): string => {
+    const month = d.slice(4, 6);
+    const day = d.slice(6, 8);
+    const hours = t.slice(0, 2);
+    const minutes = t.slice(2, 4);
+    console.log(month);
+    return `${month}/${day}${hours}:${minutes}`;
 }
 
-const TempGraph: React.FC<Prop> = ({tmp}) => {
+const TempGraph: React.FC<Prop> = ({fcstData, text, style}) => {
     const data = [{
         id: 'line',
-        data: tmp.map((item) => ({
-            x: formatTime(item.fcstTime),
+        data: fcstData.map((item) => ({
+            x: formatTime(item.fcstDate, item.fcstTime),
             y: parseFloat(item.fcstValue) || 0
         }))
     }]
-    console.log('graph data:', data);
+
+    const minValue = Math.min(...fcstData.map(item => parseFloat(item.fcstValue) || 0));
+    console.log(fcstData[0].fcstDate);
+    console.log(`graph ${text} data:`, data[0]);
 
     return ( 
-        <div className='h-full w-full border-black border-[1px]'>
-            <p>기온</p>
+        <div className='h-full w-full mb-[50px]' style={style}>
+            <p>{text}</p>
             <ResponsiveLine 
                 colors={'LightSkyBlue'}
                 data={data}
-                margin={{ top: 10, right: 30, bottom: 50, left: 60 }}
-                xFormat="time:%H:%M"
+                margin={{ top: 20, right: 40, bottom: 50, left: 60 }}
+                xFormat="time:%m월 %d일 %H:%M"
                 xScale={{ 
                     type: "time",
-                    format: "%H:%m",
+                    format: "%m/%d%H:%m",
                     useUTC: false,
                     min: 'auto',
                     max: 'auto',
@@ -45,42 +53,33 @@ const TempGraph: React.FC<Prop> = ({tmp}) => {
                 }}
                 yFormat=" >-.2f"
                 curve='linear'
-                axisTop={null}
-                axisRight={null}
                 axisBottom={{
-                    format: '%H:%M',
+                    format: '%m월%d일 %H:%M',
                     tickValues: 'every 1 hour',
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: '시간',
                     legendOffset: 36,
-                    legendPosition: 'end',
                     truncateTickAt: 0
                 }}
                 axisLeft={{
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: '수온',
                     legendOffset: -40,
                     legendPosition: 'end',
                     truncateTickAt: 0
                 }}
-                enableGridX={false}
+                enableGridX={true}
                 pointSize={10}
-                pointColor={{ theme: 'background' }}
-                pointBorderWidth={2}
-                pointBorderColor={{ from: 'serieColor' }}
+                pointBorderWidth={1}
                 enablePointLabel={true}
                 pointLabel="data.yFormatted"
                 pointLabelYOffset={-12}
                 enableArea={true}
-                areaBaselineValue={10}
+                areaBaselineValue={minValue}
                 enableCrosshair={false}
-                enableTouchCrosshair={true}
                 useMesh={true}
-                legends={[]}
             />
         </div>
     )

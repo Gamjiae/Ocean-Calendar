@@ -58,6 +58,7 @@ export type TransformedData = {
 };
 
 export interface Fcst {
+    fcstDate?: string;
     fcstTime: string;
     fcstValue: string;
 }
