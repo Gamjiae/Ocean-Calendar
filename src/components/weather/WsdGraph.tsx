@@ -1,30 +1,26 @@
 import { ResponsiveLine } from '@nivo/line';
 import { Fcst } from '../../util/interface';
 
-interface Prop {
-    tmp: Fcst[]
-}
-
 const formatTime = (d: string): string => {
-    const hours = d.slice(0, 2);
-    const minutes = d.slice(2, 4);
+    const hours = d.slice(8, 10);
+    const minutes = d.slice(10, 12);
     return `${hours}:${minutes}`;
 }
 
-const TempGraph: React.FC<Prop> = ({tmp}) => {
-    const data = [{
-        id: 'line',
-        data: tmp.map((item) => ({
-            x: formatTime(item.fcstTime),
-            y: parseFloat(item.fcstValue) || 0
-        }))
-    }]
-    console.log('graph data:', data);
+const WsdGraph: React.FC<Fcst> = () => {
+    // const data = [{
+    //     id: 'line',
+    //     data: wsd.map(item => ({
+    //         x: formatTime(item.tm),
+    //         y: parseFloat(item.tw) || 0
+    //     }))
+    // }]
+    
+    // console.log(data);
 
-    return ( 
-        <div className='h-full w-full border-black border-[1px]'>
-            <p>기온</p>
-            <ResponsiveLine 
+    return (
+        <div className='h-4/5 w-full pb-6'>
+            {/* <ResponsiveLine 
                 colors={'LightSkyBlue'}
                 data={data}
                 margin={{ top: 10, right: 30, bottom: 50, left: 60 }}
@@ -38,8 +34,8 @@ const TempGraph: React.FC<Prop> = ({tmp}) => {
                 }}
                 yScale={{
                     type: "linear",
-                    min: 'auto',
-                    max: 'auto',
+                    min: 10,
+                    max: 25,
                     stacked: true,
                     reverse: false,
                 }}
@@ -81,9 +77,9 @@ const TempGraph: React.FC<Prop> = ({tmp}) => {
                 enableTouchCrosshair={true}
                 useMesh={true}
                 legends={[]}
-            />
+            /> */}
         </div>
     )
 }
 
-export default TempGraph
+export default WsdGraph;

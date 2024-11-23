@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { beaches } from "../util/beachList";
+import { useBeachStore } from "../util/useStore";
 
 // 초성 추출 함수
 const extractInitial = (word: string): string => {
@@ -90,23 +91,12 @@ const categorizeBeaches = (beaches: { num: number; name: string }[]) => {
   return categorized;
 };
 
-type Props = {
-  beach?: string
-  setBeach?: React.Dispatch<React.SetStateAction<string>>; 
-}
-
-const BeachList: React.FC<Props> = ({ beach, setBeach }) => {
+const BeachList: React.FC = () => {
+  const { setBeach } = useBeachStore();
   const [selectedInitial, setSelectedInitial] = useState<string | null>(null);
   const [selectedBeach, setSelectedBeach] = useState<string | null>(null);
 
   const categorizedBeaches = categorizeBeaches(beaches);
-
-  useEffect(() => {
-    if (beach) {
-      console.log('Selected beach:', beach);
-      setSelectedBeach(beach);  // beach 상태가 업데이트되면 selectedBeach도 업데이트
-    }
-  }, [beach]);
 
   return (
     <div className="ml-[100px] mt-4">
@@ -136,7 +126,7 @@ const BeachList: React.FC<Props> = ({ beach, setBeach }) => {
                 key={index}
                 className="mr-[5px] my-[5px] p-[5px] rounded-md cursor-pointer text-xs"
                 onClick={() => { 
-                  setBeach(name); 
+                  setBeach(name, num); 
                   setSelectedBeach(name); 
                   console.log(`Selected brach num: ${num}`)
                 }}

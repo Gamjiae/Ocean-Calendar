@@ -1,4 +1,4 @@
-import { WaterTempItem, WeatherItem } from "./interface";
+import { WeatherItem } from "./interface";
 
 export const emojies = {
     sunny: 'images/sunny.png',        // 맑음 (1)
@@ -25,18 +25,17 @@ const ptyMap: { [key: string]: { description: string, emoji: string } } = {
     "7": { description: '눈날림', emoji: emojies.rainAndSnow }
 };
 
-// 초단기 날씨 데이터에서 온도, 강수량, 하늘상태를 가져오고 이모지를 결정하는 함수
+// 초단기 날씨 데이터에서 정보를 추출하는 함수
 export const processWeatherItems = (items: WeatherItem[]) => {
     // 온도 정보
     const tmp = items
         .filter((item) => item.category === 'T1H')
-        .slice(0, 3)
         .map((item) => ({
             fcstTime: item.fcstTime,
             fcstValue: item.fcstValue
         }));
 
-    // 강수량 및 하늘 상태 값 가져오기
+    // 강수량, 하늘 상태, 풍속 값 가져오기
     const ptyValue = items.find((item) => item.category === "PTY")?.fcstValue || "0";
     const skyValue = items.find((item) => item.category === "SKY")?.fcstValue || "1";
 
@@ -45,6 +44,16 @@ export const processWeatherItems = (items: WeatherItem[]) => {
     const pty = ptyMap[ptyValue]?.description || "";
     const emoji = ptyValue === "0" ? skyMap[skyValue]?.emoji || "" : ptyMap[ptyValue]?.emoji || "";
 
-    console.log("tmp:", tmp);
-    return { tmp, pty, sky, emoji };
+    const wsd = items.find((item) => item.category === "WSD")?.fcstValue || "0";
+
+    return { tmp, pty, sky, emoji, wsd };
+};
+
+export const formatDateToYYYYMMDD = (date: Date): string => {
+    const year = date.getFullYear(); // 년도 (4자리)
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월 (2자리, 0부터 시작하므로 +1)
+    const day = String(date.getDate()).padStart(2, '0'); // 일 (2자리)
+    
+    console.log(`${year}${month}${day}`);
+    return `${year}${month}${day}`; // 형식: yyyyMMdd
 };

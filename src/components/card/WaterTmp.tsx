@@ -11,6 +11,7 @@ const WaterTmp: React.FC = () => {
         queryKey: ['waterTemp', beachNum], 
         queryFn: () => fetchWaterTemp(beachNum)
     });
+    
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -20,7 +21,7 @@ const WaterTmp: React.FC = () => {
     }
 
     return (
-        <div className="flex items-center justify-center flex-col bg-white opacity-65 w-[250px] h-[290px] rounded-3xl">
+        <div className=" bg-white opacity-65 w-[250px] h-[290px] rounded-3xl pt-8">
             <Graph tmp={data}/>
         </div>
     )

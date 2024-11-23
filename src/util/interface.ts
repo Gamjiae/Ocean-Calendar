@@ -56,3 +56,8 @@ export type TransformedData = {
     sky: string;
     emoji: string;
 };
+
+export interface Fcst {
+    fcstTime: string;
+    fcstValue: string;
+}

@@ -31,7 +31,7 @@ if (minute < 45) {
 export let date = `${year}${month}${day}`;
 
 // 수온 API를 위한 시간 설정 (3시간 이전부터 지금까지의 시간)
-for (let i = 0; i < 12; i++) {
+for (let i = 0; i < 3; i++) {
     let tempHour = hour - i;
     if (tempHour < 0) {
         tempHour += 24;

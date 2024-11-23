@@ -5,12 +5,13 @@ import { WeatherItem, WaterTempItem, TideData } from './interface';
 const key1 = '4cO3mbOrpYGMwt0QP2coIoApx8hLR0KNJxAIzQ1gHQHSLQcODgd/Pdn6vlQsamSDSzloxkX2N24lFEdHxQCGow==';
 const key2 = 'XxVn8I4Z6RnfRQJ3pth6hQ==';
 
-export const fetchWeatherData = async (num: number): Promise<WeatherItem[]> => {
+export const FetchWeatherData = async (num: number): Promise<WeatherItem[]> => {
+    
     try {
         const res = await axios.get('http://apis.data.go.kr/1360000/BeachInfoservice/getUltraSrtFcstBeach', {
             params: {
                 serviceKey: key1,
-                numOfRows: 28,
+                numOfRows: 60,
                 pageNo: 1,
                 dataType: 'JSON',
                 base_date: date,

@@ -1,14 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { processWeatherItems } from '../../util/apiUtils';
 import { useBeachStore } from '../../util/useStore';
-import { fetchWeatherData } from '../../util/api';
+import { FetchWeatherData } from '../../util/api';
+import {useEffect} from 'react'
 
 const Weather: React.FC = () => {
     const { beachNum } = useBeachStore();
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ['weather', beachNum], 
-        queryFn: () => fetchWeatherData(beachNum || 1)
+        queryFn: () => FetchWeatherData(beachNum || 1)
     });
 
     if (isLoading) {

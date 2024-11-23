@@ -5,9 +5,7 @@ type props = {
     tmp: WaterTempItem[]
 }
 
-const formatDate = (d: string): string => {
-    //const month = d.slice(4, 6);
-    //const day = d.slice(6, 8);
+const formatTime = (d: string): string => {
     const hours = d.slice(8, 10);
     const minutes = d.slice(10, 12);
     return `${hours}:${minutes}`;
@@ -17,7 +15,7 @@ const Graph: React.FC<props> = ({ tmp }) => {
     const data = [{
         id: 'line',
         data: tmp.map(item => ({
-            x: formatDate(item.tm),
+            x: formatTime(item.tm),
             y: parseFloat(item.tw) || 0
         }))
     }]

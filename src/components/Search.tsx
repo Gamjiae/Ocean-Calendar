@@ -6,13 +6,11 @@ import { WeatherData } from '../util/interface';
 
 type Props = {
   style?: React.CSSProperties;
-  beach: string;
-  setBeach: React.Dispatch<React.SetStateAction<string>>;
   data?: WeatherData;
   // handleFetchData: () => void;
 };
 
-const Search: React.FC<Props> = ({ style, beach, setBeach }) => {
+const Search: React.FC<Props> = ({ style }) => {
   const [select, setSelect] = useState<string>('');
 
   return (
@@ -32,7 +30,7 @@ const Search: React.FC<Props> = ({ style, beach, setBeach }) => {
         </button>
       </div>
       { select === 'name' && (
-        <BeachList beach={beach} setBeach={setBeach} />
+        <BeachList/>
       )}
       { select === 'map' && (
         '지도'
