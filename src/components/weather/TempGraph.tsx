@@ -59,15 +59,12 @@ const TempGraph: React.FC<Prop> = ({fcstData, text, style}) => {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legendOffset: 36,
                     truncateTickAt: 0
                 }}
                 axisLeft={{
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legendOffset: -40,
-                    legendPosition: 'end',
                     truncateTickAt: 0
                 }}
                 enableGridX={false}

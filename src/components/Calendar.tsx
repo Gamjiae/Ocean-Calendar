@@ -13,10 +13,6 @@ interface Props {
 const Calendar: React.FC<Props> = () => {
   const { date, setDate } = useDateStore();
 
-  useEffect(() => {
-    console.log(date);
-  }, [date]);
-
   return (
     <Wrapper>
       <DatePicker

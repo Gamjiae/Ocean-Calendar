@@ -7,15 +7,16 @@ const WeatherPage: React.FC = () => {
     const { beachName } = useBeachStore();
 
     return (
-        <div className=''>
+        <div>
             <Header showTitle={false}/>
-            <Search 
-                style={{padding: '30px'}}
-            />
-            <p className="ml-[30px]">
-                <span className="font-bold border-b-[1px] border-b-black">{beachName}</span>의 날씨 예보
-            </p>
-            <Graphs/> 
+            <div className="m-[30px]">
+                <Search/>
+                <hr className="mt-[25px]"/>
+                <p className="mt-[25px] mb-[15px]">
+                    <span className="font-bold border-b-[1px] border-b-black">{beachName}</span>의 날씨 예보
+                </p>
+                <Graphs/>
+            </div> 
         </div>
     )
 }

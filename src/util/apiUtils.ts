@@ -60,6 +60,29 @@ export const formatDateToYYYYMMDD = (date: Date): string => {
     const month = String(date.getMonth() + 1).padStart(2, '0'); // 월 (2자리, 0부터 시작하므로 +1)
     const day = String(date.getDate()).padStart(2, '0'); // 일 (2자리)
     
-    console.log(`${year}${month}${day}`);
     return `${year}${month}${day}`; // 형식: yyyyMMdd
+};
+
+// 일주일간의 날짜 구하기
+export const getWeekDates = (baseDate: Date) => {
+    const date = new Date(baseDate); // 기준 날짜
+    const dayOfWeek = (date.getDay() + 6) % 7; // 요일 계산 (0: 월요일, 6: 일요일)
+    const startOfWeek = new Date(date);
+    startOfWeek.setDate(date.getDate() - dayOfWeek); // 기준 날짜에서 (요일 수 - 월요일)만큼 빼기
+
+    const weekDates = [];
+    for (let i = 0; i < 7; i++) {
+        const currentDate = new Date(startOfWeek);
+        currentDate.setDate(startOfWeek.getDate() + i);
+
+        // YYYYMMDD 형식으로 변환
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        const formattedDate = `${year}${month}${day}`;
+
+        weekDates.push(formattedDate);
+    }
+
+    return weekDates;
 };

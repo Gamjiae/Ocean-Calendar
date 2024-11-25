@@ -34,7 +34,7 @@ const Graphs: React.FC<Props> = () => {
     const { wsd, tmp, rn1 } = processWeatherItems(data);
     
     return (
-        <div className="p-[30px] w-4/5 h-[300px]">
+        <div className="w-4/5 h-[300px]">
             <TempGraph fcstData={tmp} text='기온'/>
             <TempGraph fcstData={wsd} text='풍속'/>
             <TempGraph fcstData={rn1} text='강수량'/>

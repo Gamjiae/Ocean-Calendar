@@ -1,20 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import AutoSearch from './AutoSearch'
 import Calendar from './Calendar'
 import BeachList from './BeachList'
 import { WeatherData } from '../util/interface';
 
 type Props = {
-  style?: React.CSSProperties;
   data?: WeatherData;
-  // handleFetchData: () => void;
 };
 
-const Search: React.FC<Props> = ({ style }) => {
+const Search: React.FC<Props> = () => {
   const [select, setSelect] = useState<string>('');
 
   return (
-    <div style={style}>
+    <div>
       <div className="flex items-center">
         <span className="w-[100px] text-zinc-600 text-sm">해수욕장 선택</span>
         <div className='flex w-[191px] justify-around p-[5px] text-sm border-[2px]' style={{borderColor: '#a6cfe9'}}>
@@ -35,7 +33,7 @@ const Search: React.FC<Props> = ({ style }) => {
         <AutoSearch
           containerStyle={{
             position: 'static',
-            width: '190px',
+            width: '215px',
             height: '30px',
             marginTop: '10px',
             marginBottom: '10px',

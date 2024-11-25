@@ -1,8 +1,10 @@
 import { ResponsiveLine } from '@nivo/line';
 import { WaterTempItem } from '../util/interface';
 
-type props = {
-    tmp: WaterTempItem[]
+interface props {
+    tmp: WaterTempItem[];
+    text?: string;
+    style?: React.CSSProperties;
 }
 
 const formatTime = (d: string): string => {
@@ -11,7 +13,7 @@ const formatTime = (d: string): string => {
     return `${hours}:${minutes}`;
 }
 
-const Graph: React.FC<props> = ({ tmp }) => {
+const Graph: React.FC<props> = ({ tmp, text }) => {
     const data = [{
         id: 'line',
         data: tmp.map(item => ({
@@ -24,11 +26,12 @@ const Graph: React.FC<props> = ({ tmp }) => {
     console.log(data);
 
     return (
-        <div className='h-4/5 w-full pb-6'>
+        <div className='w-full h-full mb-[50px]'>
+            <p>{text}</p>
             <ResponsiveLine 
                 colors={'LightSkyBlue'}
                 data={data}
-                margin={{ top: 10, right: 30, bottom: 50, left: 60 }}
+                margin={{ top: 20, right: 30, bottom: 50, left: 60 }}
                 xFormat="time:%H:%M"
                 xScale={{ 
                     type: "time",
@@ -39,49 +42,37 @@ const Graph: React.FC<props> = ({ tmp }) => {
                 }}
                 yScale={{
                     type: "linear",
-                    min: 10,
-                    max: 25,
+                    min: 'auto',
+                    max: 'auto',
                     stacked: true,
                     reverse: false,
                 }}
                 yFormat=" >-.2f"
                 curve='linear'
-                axisTop={null}
-                axisRight={null}
                 axisBottom={{
                     format: '%H:%M',
                     tickValues: 'every 1 hour',
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: '시간',
-                    legendOffset: 36,
-                    legendPosition: 'end',
                     truncateTickAt: 0
                 }}
                 axisLeft={{
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: '수온',
-                    legendOffset: -40,
-                    legendPosition: 'end',
                     truncateTickAt: 0
                 }}
                 enableGridX={false}
                 pointSize={10}
-                pointColor={{ theme: 'background' }}
-                pointBorderWidth={2}
-                pointBorderColor={{ from: 'serieColor' }}
+                pointBorderWidth={1}
                 enablePointLabel={true}
                 pointLabel="data.yFormatted"
                 pointLabelYOffset={-12}
                 enableArea={true}
                 areaBaselineValue={minValue}
                 enableCrosshair={false}
-                enableTouchCrosshair={true}
                 useMesh={true}
-                legends={[]}
             />
         </div>
     )

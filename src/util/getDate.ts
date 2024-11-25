@@ -7,7 +7,8 @@ let hour = today.getHours();
 let minute = today.getMinutes();
 
 export let timeForWeather = "";
-export let timeForWaterTemp = [""];
+export let timeForMain = [""];
+export let timeForWT = [""];
 
 // 초단기 API를 1시간 단위로 설정
 if (minute < 45) {
@@ -37,5 +38,10 @@ for (let i = 0; i < 3; i++) {
         tempHour += 24;
     }
 
-    timeForWaterTemp[i] = String(tempHour).padStart(2, "0") + String(minute).padStart(2, "0");
+    timeForMain[i] = String(tempHour).padStart(2, "0") + String(minute).padStart(2, "0");
+}
+
+for (let i = 0; i <= hour; i++) {
+    let tempHour = hour - i;
+    timeForWT[i] = String(tempHour).padStart(2, '0') + "30";
 }

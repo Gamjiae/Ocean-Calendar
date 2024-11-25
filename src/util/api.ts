@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { date, timeForWaterTemp, timeForWeather } from './getDate';
+import { date, timeForMain, timeForWT, timeForWeather } from './getDate';
 import { WeatherItem, WaterTempItem, TideData } from './interface';
 
 const key1 = '4cO3mbOrpYGMwt0QP2coIoApx8hLR0KNJxAIzQ1gHQHSLQcODgd/Pdn6vlQsamSDSzloxkX2N24lFEdHxQCGow==';
@@ -30,11 +30,12 @@ export const FetchWeatherData = async (num: number, selectedDate: string): Promi
     }
 };
 
-export const fetchWaterTemp = async (num: number): Promise<WaterTempItem[]> => {
+// 수온
+export const fetchWaterTemp = async (num: number, option: boolean): Promise<WaterTempItem[]> => {
     try {
         const results: WaterTempItem[] = [];
 
-        for (const time of timeForWaterTemp) {
+        for (const time of (option ? timeForWT : timeForMain)) {
             const res = await axios.get('http://apis.data.go.kr/1360000/BeachInfoservice/getTwBuoyBeach?', {
                 params: {
                     serviceKey: key1,
@@ -98,13 +99,13 @@ export const fetchTide = async () => {
 }
 
 // 만조, 간조
-export const fetchHighAndLowTide = async (stationId: string): Promise<TideData[]> => {
+export const fetchHighAndLowTide = async (stationId: string, newDate?: string): Promise<TideData[]> => {
     try {
         const res = await axios.get('http://www.khoa.go.kr/api/oceangrid/tideObsPreTab/search.do', {
             params: {
                 ServiceKey: key2,
                 ObsCode: stationId, 
-                Date: date,
+                Date: newDate ? newDate : date,
                 ResultType: 'json'
             }
         })

@@ -8,7 +8,7 @@ const WaterTmp: React.FC = () => {
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ['waterTemp', beachNum], 
-        queryFn: () => fetchWaterTemp(beachNum)
+        queryFn: () => fetchWaterTemp(beachNum, false)
     });
     
     if (isLoading) {

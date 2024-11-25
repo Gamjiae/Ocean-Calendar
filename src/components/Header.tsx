@@ -10,11 +10,13 @@ const Header: React.FC<HeaderProps> = ({ showTitle = true }) => {
       {/* 사이트 이름 */}
       <div className='flex items-center'>
         <Link to='/'>
-          <img className='w-[30px] h-[30px] ml-3' src='images/titleImage.png' alt="Ocean Calendar logo"/>
+          <div className="flex">
+            <img className='w-[30px] h-[30px] ml-3' src='images/titleImage.png' alt="Ocean Calendar logo"/>
+            {showTitle && (
+              <span className='opacity-80 text-2xl ml-5 hidden md:block'>Ocean Calendar</span>
+            )}
+          </div>
         </Link>
-        {showTitle && (
-          <span className='opacity-80 text-2xl ml-5 hidden md:block'>Ocean Calendar</span>
-        )}
       </div>
 
       {/* 네비게이션 */}
