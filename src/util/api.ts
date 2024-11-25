@@ -4,6 +4,7 @@ import { WeatherItem, WaterTempItem, TideData } from './interface';
 
 const key1 = '4cO3mbOrpYGMwt0QP2coIoApx8hLR0KNJxAIzQ1gHQHSLQcODgd/Pdn6vlQsamSDSzloxkX2N24lFEdHxQCGow==';
 const key2 = 'XxVn8I4Z6RnfRQJ3pth6hQ==';
+const key3 = '4cO3mbOrpYGMwt0QP2coIoApx8hLR0KNJxAIzQ1gHQHSLQcODgd/Pdn6vlQsamSDSzloxkX2N24lFEdHxQCGow==';
 
 export const FetchWeatherData = async (num: number, selectedDate: string): Promise<WeatherItem[]> => {
     try {
@@ -118,5 +119,30 @@ export const fetchHighAndLowTide = async (stationId: string, newDate?: string): 
     } catch (error) {
         console.error("API 호출 실패: ", error);
         throw new Error("만조, 간조 데이터를 가져오는 중 오류가 발생했습니다.");
+    }
+}
+
+// 월령
+export const fetchLunarAge = async (date: string) => {
+    let y = date.slice(0, 4);
+    let m = date.slice(4, 6);
+    let d = date.slice(6, 8);
+
+    try {
+        const res = await axios.get('http://apis.data.go.kr/B090041/openapi/service/LunPhInfoService/getLunPhInfo', {
+            params: {
+                solYear: y,
+                solMonth: m,
+                solDay: d,
+                ServiceKey: key3
+            }
+        })
+        
+        console.log('월령: ', res.data.response.body.items.item);
+        return res.data.response.body.items.item;
+        
+    } catch (error) {
+        console.error("API 호출 실패: ", error);
+        throw new Error("월령 데이터를 가져오는 중 오류가 발생했습니다.");
     }
 }

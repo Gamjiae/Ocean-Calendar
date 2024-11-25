@@ -1,38 +1,39 @@
-th,
-td {
-  padding: 15px;
-  background-color: rgba(255,255,255,0.2);
+table {
+  width: 100%;
+  box-shadow: 4px 4px 10px 0 rgba(0, 0, 0, 0.1); 
+  font-size: 14px;
 }
 
 th {
+  background-color: #bfdbfe;
+}
+
+/* 테이블 행 */
+th, td {
+  padding: 8px;
   text-align: left;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
 }
 
-thead th {
-  background-color: #55608f;
-}
-
-tbody tr {
-  /* tr의 배경색을 추가 */
-  background-color: rgba(255, 255, 255, 0.1); /* 약간의 배경색을 추가 */
-  transition: background-color 0.3s ease; /* hover 시 부드럽게 배경색 변경 */
-}
-
+/* 테이블 올렸을 때 */
 tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: #d3d3d3;
+  opacity: 0.9;
 }
 
-tbody td {
-  position: relative;
+/* 테이블 비율 */
+/* th:nth-child(1),
+td:nth-child(1) {
+  width: 20%;
 }
 
-tbody td:hover:before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.2);
-  z-index: -1; /* z-index가 -1로 설정되어 가상 요소가 '뒤'로 위치하도록 변경 */
+th:nth-child(2),
+td:nth-child(2) {
+  width: 20%;
 }
+
+th:nth-child(3),
+td:nth-child(3) {
+  width: 30%;
+} */
