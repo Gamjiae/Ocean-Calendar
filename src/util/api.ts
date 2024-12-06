@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { date, timeForMain, timeForWT, timeForWeather } from './getDate';
+import { date, timeForWeather } from './getDate';
 import { WeatherItem, WaterTempItem, TideData } from './interface';
 
 const key1 = '4cO3mbOrpYGMwt0QP2coIoApx8hLR0KNJxAIzQ1gHQHSLQcODgd/Pdn6vlQsamSDSzloxkX2N24lFEdHxQCGow==';
@@ -32,24 +32,20 @@ export const FetchWeatherData = async (num: number, selectedDate: string): Promi
 };
 
 // 수온
-export const fetchWaterTemp = async (num: number, option: boolean): Promise<WaterTempItem[]> => {
+export const fetchWaterTemp = async (num: number, date: string, time: string): Promise<WaterTempItem> => {
     try {
-        const results: WaterTempItem[] = [];
+        const res = await axios.get('http://apis.data.go.kr/1360000/BeachInfoservice/getTwBuoyBeach?', {
+            params: {
+                serviceKey: key1,
+                dataType: 'JSON',
+                beach_num: num,
+                searchTime: date + time,
+            },
+        });
 
-        for (const time of (option ? timeForWT : timeForMain)) {
-            const res = await axios.get('http://apis.data.go.kr/1360000/BeachInfoservice/getTwBuoyBeach?', {
-                params: {
-                    serviceKey: key1,
-                    dataType: 'JSON',
-                    beach_num: num,
-                    searchTime: date + time,
-                },
-            });
-            results.push(...res.data.response.body.items.item);
-        }
+        console.log('Water Temperature:', res.data.response.body.items.item[0]);
 
-        console.log('Water Temperature for 3 Hours:', results);
-        return results;
+        return res.data.response.body.items.item[0];
 
     } catch (error) {
         console.error("API 호출 실패: ", error);
@@ -57,7 +53,8 @@ export const fetchWaterTemp = async (num: number, option: boolean): Promise<Wate
     }
 };
 
-export const fetchWaveHeight = async () => {
+// 파고
+export const fetchWaveHeight = async (num: number, date: string) => {
     try {
         const res = await axios.get('http://apis.data.go.kr/1360000/BeachInfoservice/getWhBuoyBeach', {
             params: {
@@ -65,13 +62,14 @@ export const fetchWaveHeight = async () => {
                 numOfRows: 28,
                 pageNo: 1,
                 dataType: 'JSON',
-                base_date: date,
-                base_time: timeForWeather,
-                beach_num: 1 // 임시값
+                searchTime: date,
+                beach_num: num
             }
         });
 
+        console.log("wave height:", res.data.response.body.items.item[0]);
 
+        return res.data.response.body.items.item[0];
     } catch (error) {
         console.error("API 호출 실패: ", error);
         throw new Error("파고 데이터를 가져오는 중 오류가 발생했습니다.");

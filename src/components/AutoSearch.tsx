@@ -8,7 +8,7 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ containerStyle, inputStyle, sho
   const [keyword, setKeyword] = useState<string>("");          // 검색어
   const [autoItems, setAutoItems] = useState<AutoDatas[]>([]); // 자동완성된 검색어 목록
   const [index, setIndex] = useState<number>(-1);
-  const [isListOpen, setIsListOpen] = useState<boolean>(true);
+  const [isListOpen, setIsListOpen] = useState<boolean>(false);
   const { setBeach } = useBeachStore();
 
   const autoRef = useRef<HTMLUListElement>(null);
@@ -16,6 +16,12 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ containerStyle, inputStyle, sho
 
   const onChangeData = (e: React.FormEvent<HTMLInputElement>) => {
     setKeyword(e.currentTarget.value);
+    setIsListOpen(true);
+
+    if (e.currentTarget.value === "") {
+      setAutoItems([]); // 검색어가 비어있으면 자동완성 목록을 비웁니다.
+      setIsListOpen(false); // 리스트를 닫습니다.
+    }
   };
 
   const updateData = () => {
@@ -85,17 +91,14 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ containerStyle, inputStyle, sho
     }
   };
 
-  const hasResults = autoItems.length > 0;
-
   return (
     <div ref={containerRef}>
       <SearchContainer style={containerStyle}>
         <SearchInput 
           value={keyword} 
           onChange={onChangeData} 
-          hasResults={hasResults} 
+          isListOpen={isListOpen} 
           onKeyDown={handleKeyArrow}
-          onFocus={() => setIsListOpen(true)}
           style={inputStyle}
           placeholder='해변 이름을 검색하세요.'
         />
@@ -104,9 +107,10 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ containerStyle, inputStyle, sho
             src="images/search.png" 
             alt="searchIcon" 
             className="cursor-pointer"
+            style={{marginBottom: '5px'}}
           />}
-        {isListOpen && hasResults && keyword && (
-          <AutoSearchContainer hasResults={hasResults}>
+        {isListOpen && keyword && (
+          <AutoSearchContainer isListOpen={isListOpen}>
             <ul ref={autoRef}>
               {autoItems.map((item, idx) => (
                 <AutoSearchData 
@@ -126,7 +130,7 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ containerStyle, inputStyle, sho
 }
 
 interface SearchInputProps {
-  hasResults: boolean;
+  isListOpen: boolean;
 }
 
 const SearchContainer = styled.div`
@@ -136,9 +140,9 @@ const SearchContainer = styled.div`
   img {
     position: absolute;
     right: 10px;
-    top: 10px;
-    width: 30px;
-    height: 30px;
+    top: 9px;
+    width: 27px;
+    height: 27px;
   }
 `;
 
@@ -147,9 +151,9 @@ const SearchInput = styled.input<SearchInputProps>`
   background-color: white;
   width: 100%;
   height: 100%;
-  border-radius: ${({ hasResults }) => (hasResults ? '15px 15px 0 0' : '15px')};
-  box-shadow: ${({ hasResults }) => (hasResults ? '0px 5px 10px 1px rgba(0, 0, 0, 0.1)' : 'none')};
-  border: ${({ hasResults }) => (hasResults ? '2px solid #e4e4e7' : '2px solid #0EA5E9')}; // 수정된 부분
+  border-radius: ${({ isListOpen }) => (isListOpen ? '15px 15px 0 0' : '15px')};
+  box-shadow: ${({ isListOpen }) => (isListOpen ? '0px 5px 10px 1px rgba(0, 0, 0, 0.1)' : 'none')};
+  border: ${({ isListOpen }) => (isListOpen ? '2px solid #e4e4e7' : '2px solid #0EA5E9')};
   &:focus {
     outline: none;
   }
@@ -161,7 +165,7 @@ const AutoSearchContainer = styled.div<SearchInputProps>`
   width: 100%;
   background-color: #fff;
   padding: 20px;
-  box-shadow: ${({ hasResults }) => (hasResults ? '0px 5px 10px 1px rgba(0, 0, 0, 0.35)' : 'none')};
+  box-shadow: ${({ isListOpen }) => (isListOpen ? '0px 5px 10px 1px rgba(0, 0, 0, 0.35)' : 'none')};
   border-radius: 0 0 15px 15px;
   z-index: 2;
 `;
@@ -179,9 +183,10 @@ const AutoSearchData = styled.li<{isFocus?: boolean}>`
   img {
     position: absolute;
     right: 5px;
-    width: 18px;
+    width: 15px;
     top: 50%;
     transform: translateY(-50%);
+    margin-bottom: 1px;
   }
 `;
 

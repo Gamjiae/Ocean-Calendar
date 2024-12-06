@@ -5,12 +5,12 @@ import { useBeachStore } from "../util/useStore";
 import { fetchHighAndLowTide, fetchLunarAge } from "../util/api";
 import { datas } from '../util/mapping';
 import { TideData } from "../util/interface";
-import '../table.css';
+import '../style/table.css';
 import React from "react";
 
 const TideTable: React.FC = () => {
     const { date } = useDateStore();
-    const newDate = formatDateToYYYYMMDD(date);
+    const { year, month, day } = formatDateToYYYYMMDD(date);
 
     const { beachName } = useBeachStore();
     const stationId = datas[beachName];
@@ -65,7 +65,7 @@ const TideTable: React.FC = () => {
             <table>
                 <thead>
                     <tr>
-                        <th>{newDate.slice(0, 4)}년 {newDate.slice(4, 6)}월</th>
+                        <th>{year}년 {month}월</th>
                         <th>월령</th>
                         <th>간조 / 만조 시각</th>
                         <th>수위</th>

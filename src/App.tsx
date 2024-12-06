@@ -3,6 +3,7 @@ import TempPage from './pages/TempPage';
 import TidePage from './pages/TidePage';
 import WavePage from './pages/WavePage';
 import WeatherPage from './pages/WeatherPage';
+import './style/App.css';
 
 import { Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

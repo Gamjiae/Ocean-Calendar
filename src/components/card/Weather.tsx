@@ -26,11 +26,16 @@ const Weather: React.FC = () => {
 
     return (
         <div 
-            className="flex items-center justify-center flex-col bg-white opacity-65 w-[250px] h-[290px] rounded-3xl cursor-pointer"
+            className="flex items-center justify-center flex-col opacity-65 w-[250px] h-[290px] rounded-3xl cursor-pointer"
+            style={{backgroundColor: '#efeff9', border: '1px solid #d6d6e5', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'}}
             onClick={() => navigate('/weather')}
         > 
             <img className='w-[100px] mb-10' src={emoji} alt='Weather Emoji'/>
-            <div className="text-lg font-medium">{tmp[0]?.fcstValue} ℃</div>
+            <div 
+                className="text-lg font-medium"
+                style={{color: '#1E1B4B'}}>
+                    {tmp[0]?.fcstValue} ℃
+            </div>
             <span className="text-gray-600 mt-5 text-sm">{pty}, {sky}</span>
         </div>
     )

@@ -6,7 +6,8 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ showTitle = true }) => {
   return (
-    <div className='flex items-center h-[60px] w-screen bg-sky-700 text-white'>
+    <div className='flex items-center h-[60px] w-screen text-white'
+    style={{backgroundColor: '#1e1b4b'}}>
       {/* 사이트 이름 */}
       <div className='flex items-center'>
         <Link to='/'>

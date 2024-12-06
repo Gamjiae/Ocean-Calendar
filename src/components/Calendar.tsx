@@ -34,7 +34,7 @@ const Calendar: React.FC<Props> = () => {
 
 const Wrapper = styled.div`
   .react-datepicker__input-container {
-    border: 2px solid #a6cfe9;
+    border: 2px solid #5C86FF;
     display: flex;
     align-items: center; 
   }
@@ -42,7 +42,7 @@ const Wrapper = styled.div`
   .react-datepicker__calendar-icon {
     margin-top: 1px;
     padding: 5px;
-    color: #a6cfe9;
+    color: #5C86FF;
     width: 23px;
     height: 23px;
   }
@@ -62,7 +62,7 @@ const Wrapper = styled.div`
   }
 
   .react-datepicker__header { // 캘린더의 Header
-    background-color: #e0f2fe;
+    background-color: #F4F8FF;
     border-top-right-radius: 12px;
     border-top-left-radius: 12px;
     border-bottom: none;
@@ -90,7 +90,7 @@ const Wrapper = styled.div`
   }
 
   .react-datepicker__day--selected { // 선택된 날짜
-    background-color: rgb(186, 217, 241);
+    background-color: #5C86FF;
     border-radius: 15px;
   }
 

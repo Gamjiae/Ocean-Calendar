@@ -55,12 +55,13 @@ export const processWeatherItems = (items: WeatherItem[]) => {
     return { tmp, pty, sky, emoji, wsd, rn1 };
 };
 
-export const formatDateToYYYYMMDD = (date: Date): string => {
-    const year = date.getFullYear(); // 년도 (4자리)
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월 (2자리, 0부터 시작하므로 +1)
-    const day = String(date.getDate()).padStart(2, '0'); // 일 (2자리)
-    
-    return `${year}${month}${day}`; // 형식: yyyyMMdd
+export const formatDateToYYYYMMDD = (date: Date): { year: string; month: string; day: string; fullDate: string } => {
+    const year = String(date.getFullYear());
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const fullDate = year + month + day;
+
+    return { year, month, day, fullDate };
 };
 
 // 일주일간의 날짜 구하기
@@ -86,3 +87,28 @@ export const getWeekDates = (baseDate: Date) => {
 
     return weekDates;
 };
+
+export const getTimeArray = () => {
+    const result = [];
+    const now = new Date();
+    const endHour = now.getHours();
+    const endMinute = now.getMinutes(); // 현재 시간의 분
+
+    // 시작 시간을 00시 현재 분으로 설정
+    let currentHour = 0;
+    let currentMinute = endMinute;
+
+    while (currentHour < endHour || (currentHour === endHour && currentMinute <= endMinute)) {
+        // 시간을 "HHMM" 형식으로 배열에 추가
+        const formattedTime = `${String(currentHour).padStart(2, '0')}${String(currentMinute).padStart(2, '0')}`;
+        result.push(formattedTime);
+
+        // 한 시간 간격으로 시간 업데이트
+        currentHour += 1;
+        if (currentHour === 24) {
+            break; // 24시를 넘지 않도록 종료
+        }
+    }
+
+    return result;
+}

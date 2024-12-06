@@ -1,14 +1,15 @@
 import Header from "../components/Header";
 import Weather from '../components/card/Weather';
-import WaterTmp from '../components/card/WaterTmp';
+import WaterTmp from '../components/card/WaterTemp';
 import TideAndSun from "../components/card/TideAndSun";
 import AutoSearch from "../components/AutoSearch";
 
 const MainPage: React.FC = () => {
     return (
         <div 
-            className="w-screen h-screen bg-cover" 
-            style={{ backgroundImage: 'url(images/background.png)' }}
+            className="w-screen h-screen bg-cover"
+            style={{backgroundColor: '#F7F7FB'}} 
+            // style={{ backgroundImage: 'url(images/background.png)' }}
         >
             <Header showTitle={false} />
 
@@ -24,7 +25,7 @@ const MainPage: React.FC = () => {
 
             <AutoSearch 
                 containerStyle={{ top: '33%', left: '50%', transform: 'translate(-50%, -50%)'}} 
-                inputStyle={{ border: 'none'}}
+                inputStyle={{ border: '1px solid #D1D1E1'}}
             />
         </div>
     );

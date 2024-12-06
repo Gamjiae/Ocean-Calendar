@@ -15,3 +15,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: 'Pretendard Medium';
+  font-weight: 500;
+  font-display: swap;
+  src: local('Pretendard Medium'), url('./style/fonts/Pretendard-Medium.ttf') format('truetype');
+}

@@ -15,7 +15,7 @@ const Search: React.FC<Props> = () => {
     <div>
       <div className="flex items-center">
         <span className="w-[100px] text-zinc-600 text-sm">해수욕장 선택</span>
-        <div className='flex w-[191px] justify-around p-[5px] text-sm border-[2px]' style={{borderColor: '#a6cfe9'}}>
+        <div className='flex w-[191px] justify-around p-[5px] text-sm border-[2px]' style={{borderColor: '#5C86FF'}}>
           <button onClick={() => setSelect('name')}>가나다</button>
           <div className='border-slate-400 border-r-[1px]'/>
           <button onClick={() => setSelect('map')}>지도</button>

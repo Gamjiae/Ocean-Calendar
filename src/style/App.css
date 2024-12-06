@@ -2,6 +2,10 @@ input:focus {
   outline: none;
 }
 
+body {
+  font-family: 'Pretendard Medium'
+}
+
 /* 사이즈 수정 필요.. 메인페이지 말고 다른 페이지에서 적용해보기 */
 @media screen and (max-width: 500px) {
   .hidden {

@@ -37,3 +37,11 @@ th:nth-child(3),
 td:nth-child(3) {
   width: 30%;
 } */
+
+.wave-table thead { float:left; }
+.wave-table thead tr, 
+.wave-table thead tr th { display:block; }
+
+.wave-table tbody { display:block; oveflow-x:hidden; white-space:nowrap; }
+.wave-table tbody tr { display:inline-block; }
+.wave-table tbody tr td { display:block;}

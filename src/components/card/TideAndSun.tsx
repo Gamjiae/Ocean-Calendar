@@ -26,11 +26,12 @@ const TideAndSun: React.FC = () => {
     }
     
     return (
-        <div className="flex items-center justify-center flex-col bg-white opacity-65 w-[250px] h-[290px] rounded-3xl">
+        <div className="flex items-center justify-center flex-col opacity-65 w-[250px] h-[290px] rounded-3xl border-[2px] border-slate-300"
+            style={{backgroundColor: '#efeff9', border: '1px solid #d6d6e5', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'}}>
             
             {/* 조석 */}
             {highTide?.map((item: TideData, index: number) => (
-                <div className='w-full flex px-12 justify-between' key={index}>
+                <div className='w-full flex px-12 justify-between' key={index} style={{color: '#1E1B4B'}}>
                     {item.tph_time.slice(11,16)}
                     <div className='flex items-center'>
                         <img className="w-3 h-4" src='images/up.png'/>
@@ -40,7 +41,7 @@ const TideAndSun: React.FC = () => {
             ))} <hr className="my-2 border-t-1 border-gray-400 w-4/5" />
             
             {lowTide?.map((item: TideData, index: number) => (
-                <div className='w-full flex px-12 justify-between' key={index}>
+                <div className='w-full flex px-12 justify-between' key={index} style={{color: '#1E1B4B'}}>
                     {item.tph_time.slice(11,16)} 
                     <div className='flex items-center'>
                         <img className="w-3 h-4" src='images/down.png'/>

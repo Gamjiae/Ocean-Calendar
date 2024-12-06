@@ -33,7 +33,7 @@ const TempGraph: React.FC<Prop> = ({fcstData, text, style}) => {
         <div className='h-full w-full mb-[50px]' style={style}>
             <p>{text}</p>
             <ResponsiveLine 
-                colors={'LightSkyBlue'}
+                colors={'CornflowerBlue'}
                 data={data}
                 margin={{ top: 20, right: 40, bottom: 50, left: 60 }}
                 xFormat="time:%m월 %d일 %H:%M"

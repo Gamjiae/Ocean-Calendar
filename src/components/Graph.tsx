@@ -29,7 +29,7 @@ const Graph: React.FC<props> = ({ tmp, text }) => {
         <div className='w-full h-full mb-[50px]'>
             <p>{text}</p>
             <ResponsiveLine 
-                colors={'LightSkyBlue'}
+                colors={'CornflowerBlue'}
                 data={data}
                 margin={{ top: 20, right: 30, bottom: 50, left: 60 }}
                 xFormat="time:%H:%M"
