@@ -8,7 +8,7 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ containerStyle, inputStyle, sho
   const [keyword, setKeyword] = useState<string>("");          // 검색어
   const [autoItems, setAutoItems] = useState<AutoDatas[]>([]); // 자동완성된 검색어 목록
   const [index, setIndex] = useState<number>(-1);
-  const [isListOpen, setIsListOpen] = useState<boolean>(true);
+  const [isListOpen, setIsListOpen] = useState<boolean>(false);
   const { setBeach } = useBeachStore();
 
   const autoRef = useRef<HTMLUListElement>(null);
@@ -31,13 +31,12 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ containerStyle, inputStyle, sho
       return;
     }
     setAutoItems(filteredBeaches);
-    console.log('autoItems:', autoItems);
-    console.log('keyword:', keyword);
   };
 
   useEffect(() => {
     const debounce = setTimeout(() => {
       if(keyword) updateData();
+      if(keyword=='') setAutoItems([]);
     }, 200);
     
     return () => clearTimeout(debounce);
@@ -79,12 +78,6 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ containerStyle, inputStyle, sho
     document.addEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const onFocusInput = () => {
-    if (keyword.trim()) {
-      updateData(); // keyword에 따라 autoItems를 다시 업데이트
-    }
-  };
-
   const hasResults = autoItems.length > 0;
 
   return (
@@ -94,6 +87,7 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ containerStyle, inputStyle, sho
           value={keyword} 
           onChange={onChangeData} 
           hasResults={hasResults} 
+          isListOpen={isListOpen}
           onKeyDown={handleKeyArrow}
           onFocus={() => setIsListOpen(true)}
           style={inputStyle}
@@ -106,7 +100,7 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ containerStyle, inputStyle, sho
             className="cursor-pointer"
           />}
         {isListOpen && hasResults && keyword && (
-          <AutoSearchContainer hasResults={hasResults}>
+          <AutoSearchContainer isListOpen={hasResults}>
             <ul ref={autoRef}>
               {autoItems.map((item, idx) => (
                 <AutoSearchData 
@@ -126,7 +120,8 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ containerStyle, inputStyle, sho
 }
 
 interface SearchInputProps {
-  hasResults: boolean;
+  isListOpen?: boolean;
+  hasResults?: boolean;
 }
 
 const SearchContainer = styled.div`
@@ -140,6 +135,7 @@ const SearchContainer = styled.div`
     width: 30px;
     height: 30px;
   }
+  z-index: 3;
 `;
 
 const SearchInput = styled.input<SearchInputProps>`
@@ -147,9 +143,9 @@ const SearchInput = styled.input<SearchInputProps>`
   background-color: white;
   width: 100%;
   height: 100%;
-  border-radius: ${({ hasResults }) => (hasResults ? '15px 15px 0 0' : '15px')};
-  box-shadow: ${({ hasResults }) => (hasResults ? '0px 5px 10px 1px rgba(0, 0, 0, 0.1)' : 'none')};
-  border: ${({ hasResults }) => (hasResults ? '2px solid #e4e4e7' : '2px solid #0EA5E9')}; // 수정된 부분
+  border-radius: ${({ isListOpen, hasResults }) => (isListOpen && hasResults ? '15px 15px 0 0' : '15px')};
+  box-shadow: ${({ isListOpen }) => (isListOpen ? '0px 5px 10px 1px rgba(0, 0, 0, 0.1)' : 'none')};
+  border: ${({ isListOpen }) => (isListOpen ? '2px solid #e4e4e7' : '2px solid #0EA5E9')}; // 수정된 부분
   &:focus {
     outline: none;
   }
@@ -161,7 +157,7 @@ const AutoSearchContainer = styled.div<SearchInputProps>`
   width: 100%;
   background-color: #fff;
   padding: 20px;
-  box-shadow: ${({ hasResults }) => (hasResults ? '0px 5px 10px 1px rgba(0, 0, 0, 0.35)' : 'none')};
+  box-shadow: ${({ isListOpen }) => (isListOpen ? '0px 5px 10px 1px rgba(0, 0, 0, 0.35)' : 'none')};
   border-radius: 0 0 15px 15px;
   z-index: 2;
 `;

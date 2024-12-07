@@ -30,8 +30,3 @@ export const useDateStore = create<DateIf>((set) => ({
         set({ date: d })
     }
 }))
-
-export const useListOpenStore = create<ListOpenIf>((set) => ({
-    isListOpen: false,
-    setIsListOpen: (isOpen: boolean) => set({ isListOpen: isOpen }),
-}))
