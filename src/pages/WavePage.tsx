@@ -13,7 +13,7 @@ const WavePage: React.FC = () => {
                 <Search/>
                 <p className="text-sm mb-[25px] mt-[15px] text-zinc-600">
                     조회하고 싶은 날짜를 선택하세요. <br/>
-                    단, 과거의 파고 정보만 조회 가능합니다.
+                    과거부터 현재 시간 까지의 측정 결과를 제공합니다.
                 </p>
                 
                 <hr className="mt-[25px]"/>

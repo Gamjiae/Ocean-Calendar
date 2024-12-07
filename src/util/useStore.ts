@@ -11,6 +11,11 @@ interface DateIf {
     setDate: (d: Date) => void;
 }
 
+interface ListOpenIf {
+    isListOpen: boolean;
+    setIsListOpen: (isOpen: boolean) => void;
+}
+
 export const useBeachStore = create<BeachIf>((set) => ({
     beachName: "을왕리 해수욕장",
     beachNum: 1,
@@ -24,4 +29,9 @@ export const useDateStore = create<DateIf>((set) => ({
     setDate: (d) => {
         set({ date: d })
     }
+}))
+
+export const useListOpenStore = create<ListOpenIf>((set) => ({
+    isListOpen: false,
+    setIsListOpen: (isOpen: boolean) => set({ isListOpen: isOpen }),
 }))

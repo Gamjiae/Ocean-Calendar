@@ -26,17 +26,28 @@ const Weather: React.FC = () => {
 
     return (
         <div 
-            className="flex items-center justify-center flex-col opacity-65 w-[250px] h-[290px] rounded-3xl cursor-pointer"
+            className="relative flex flex-col opacity-65 w-[250px] h-[290px] rounded-3xl cursor-pointer z-0"
             style={{backgroundColor: '#efeff9', border: '1px solid #d6d6e5', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'}}
             onClick={() => navigate('/weather')}
-        > 
-            <img className='w-[100px] mb-10' src={emoji} alt='Weather Emoji'/>
-            <div 
-                className="text-lg font-medium"
-                style={{color: '#1E1B4B'}}>
-                    {tmp[0]?.fcstValue} ℃
+        >
+            <div className='my-3 flex justify-center'>
+                <div className='inline px-2 text-indigo-900 text-sm rounded-md bg-indigo-200'>날씨 예보</div>
             </div>
-            <span className="text-gray-600 mt-5 text-sm">{pty}, {sky}</span>
+            
+            <img 
+                src='images/arrow.png'
+                className='absolute w-10 top-0 right-0'
+            />
+
+            <div className="mt-[20px] flex items-center justify-center flex-col">
+                <img className='w-[100px] mb-10' src={emoji} alt='Weather Emoji'/>
+                <div 
+                    className="text-lg font-medium"
+                    style={{color: '#1E1B4B'}}>
+                        {tmp[0]?.fcstValue} ℃
+                </div>
+                <span className="text-gray-600 mt-5 text-sm">{pty}, {sky}</span>
+            </div>
         </div>
     )
 }

@@ -12,7 +12,8 @@ const TempPage: React.FC = () => {
             <div className="m-[30px]">
                 <Search />
                 <p className="text-sm mb-[25px] mt-[15px] text-zinc-600">
-                    선택한 날짜를 기준으로 시간별 수온 정보를 확인하세요.
+                    조회하고 싶은 날짜를 선택하세요. <br/>
+                    선택한 날짜의 시간별 수온 정보를 제공합니다.
                 </p>
                 <hr className="mt-[25px]"/>
                 <p className="mt-[25px]">

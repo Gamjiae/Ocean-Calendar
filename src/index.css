@@ -17,8 +17,15 @@ code {
 }
 
 @font-face {
-  font-family: 'Pretendard Medium';
-  font-weight: 500;
+  font-family: 'Pretendard';
+  font-weight: 400;
   font-display: swap;
   src: local('Pretendard Medium'), url('./style/fonts/Pretendard-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 300;
+  font-display: swap;
+  src: local('Pretendard Light'), url('./style/fonts/Pretendard-Light.ttf') format('truetype');
 }

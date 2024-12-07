@@ -1,11 +1,14 @@
 import Graph from '../Graph';
+import { useNavigate } from 'react-router-dom';
 import { useQueries } from '@tanstack/react-query';
 import { useBeachStore, useDateStore } from '../../util/useStore';
 import { fetchWaterTemp } from '../../util/api';
 import { formatDateToYYYYMMDD } from '../../util/apiUtils';
-import { generateLastThreeHours, generateTimes } from '../../util/dateUtils';
+import { generateLastThreeHours } from '../../util/dateUtils';
 
 const WaterTmp: React.FC = () => {
+    const navigate = useNavigate();
+
     const { beachNum } = useBeachStore();
     const { date } = useDateStore();
     const { fullDate } = formatDateToYYYYMMDD(date);
@@ -33,9 +36,23 @@ const WaterTmp: React.FC = () => {
     const hasValidData = data.some(item => item.tm && item.tw);
 
     return (
-        <div className="opacity-65 w-[250px] h-[290px] rounded-3xl pt-8 border-[2px] border-slate-300"
-            style={{ backgroundColor: '#efeff9', border: '1px solid #d6d6e5', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-            {hasValidData ? <Graph tmp={data} /> : <div>제공안됨</div>}
+        <div 
+            className='relative opacity-65 w-[250px] h-[290px] rounded-3xl border-[2px] border-slate-300 cursor-pointer'
+            style={{backgroundColor: '#efeff9', border: '1px solid #d6d6e5', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'}}
+            onClick={() => navigate('/temp')}
+        >
+            <div className='my-3 flex justify-center'>
+                <div className='inline px-2 text-indigo-900 text-sm rounded-md bg-indigo-200'>수온 정보</div>
+            </div>
+              
+            <img 
+                src='images/arrow.png'
+                className='absolute w-10 top-0 right-0'
+            />
+
+            <div className='absolute h-5/6 w-full'>
+                {hasValidData ? <Graph tmp={data} /> : <div>제공안됨</div>}
+            </div>    
         </div>
     );
 }
